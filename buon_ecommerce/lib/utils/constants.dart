@@ -14,6 +14,10 @@ const Color kDangerColor = Color.fromRGBO(115, 119, 123, 1);
 const Color kCaptionColor = Color.fromARGB(255, 47, 38, 1);
 const Color kAuxColor = Color.fromARGB(255, 77, 25, 25);
 
+const Color exrtraColor = Color(0xffddc3fc);
+const Color exrtraColor2 = Color(0xffddc3fc);
+const Color exrtraColor3 = Color(0xff91c5fc);
+
 const double kDesktopMaxWidth = 1000;
 const double kTabletMaxWidth = 760.0;
 double getMobileMaxWidth(BuildContext context) {
