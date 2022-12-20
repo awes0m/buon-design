@@ -1,11 +1,11 @@
-import 'package:buon_ecommerce/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'features/auth/screens/auth_screen.dart';
+import 'features/home/screen/homescreen.dart';
 import 'firebase_options.dart';
+import 'router.dart';
 import 'utils/constants.dart';
 
 Future<void> main() async {
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      initialRoute: AuthScreen.routeName,
+      initialRoute: HomeScreen.routeName,
       // navigatorKey: Globals.navigatorKey,
 
       //set home page

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const String cvDownloadUrl =
-    "https://drive.google.com/uc?export=download&id=1guzkkKLuTn4C3OQ6bDziQYSMA_oG-vaW";
+// const String cvDownloadUrl =
+//     "https://drive.google.com/uc?export=download&id=1guzkkKLuTn4C3OQ6bDziQYSMA_oG-vaW";
 
 ///Primary App Color
 const Color kPrimaryColor = Color.fromRGBO(248, 164, 164, 1);
@@ -20,11 +20,18 @@ const Color exrtraColor3 = Color(0xff91c5fc);
 
 const double kDesktopMaxWidth = 1000;
 const double kTabletMaxWidth = 760.0;
-double getMobileMaxWidth(BuildContext context) {
-  return MediaQuery.of(context).size.width * .8;
+double getMaxWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
+double getMobileMaxHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
 }
 
 appSnackBar(BuildContext context, String text) {
   return ScaffoldMessenger.of(context)
       .showSnackBar(SnackBar(content: Text(text)));
 }
+
+/// A constant that is true if the application was compiled to run on the web.
+const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
