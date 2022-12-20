@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "191666435178",
+    "project_id": "buon-demo",
+    "storage_bucket": "buon-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191666435178:android:a1608c939ea15ecc168613",
+        "android_client_info": {
+          "package_name": "apisod.com.buon_ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191666435178-pi70bt01k30ngr1b0gkoov4nsv23jk3b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNWa8a1yNKMRpBnN0xoOK8XGrOqrg0ejY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191666435178-pi70bt01k30ngr1b0gkoov4nsv23jk3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
