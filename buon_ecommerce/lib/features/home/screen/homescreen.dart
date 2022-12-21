@@ -6,9 +6,9 @@ import 'package:buon_ecommerce/utils/constants.dart';
 import 'package:buon_ecommerce/utils/globals/screen_helper.dart';
 
 import '../widgets/address_bar.dart';
-import '../widgets/catagories_widget.dart';
-import '../widgets/main_carousel.dart';
-import '../widgets/tagline.dart';
+// import '../widgets/catagories_widget.dart';
+// import '../widgets/main_carousel.dart';
+// import '../widgets/tagline.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "/home";
@@ -58,10 +58,23 @@ Widget buildMobile(context, double width) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const AddressBar(),
-        MainCarousel(width: width),
-        const TagLine(),
-        MainCarousel(width: width),
-        const CategoriesWidget(),
+        // MainCarousel(width: width),
+        // const TagLine(),
+        // MainCarousel(width: width), //TODO: Add BestSelling products Carousel
+        // const CategoriesWidget(),
+        Flex(
+          direction:
+              !ScreenHelper.isMobile(context) ? Axis.horizontal : Axis.vertical,
+          children: [
+            SizedBox(
+              width: !ScreenHelper.isMobile(context)
+                  ? getMaxWidth(context) * 0.98 / 2
+                  : getMaxWidth(context) * 0.98,
+              child: Image.network(
+                  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80'),
+            )
+          ],
+        )
       ],
     ),
   );
@@ -74,10 +87,34 @@ Widget buildDesktop(context, double width) {
     child: Column(
       children: [
         const AddressBar(),
-        MainCarousel(width: width),
-        const TagLine(),
-        MainCarousel(width: width),
-        const CategoriesWidget(),
+        // MainCarousel(width: width),
+        // const TagLine(),
+        // MainCarousel(width: width), //TODO: Add BestSelling products Carousel
+        // const CategoriesWidget(),
+        Flex(
+          direction:
+              !ScreenHelper.isMobile(context) ? Axis.horizontal : Axis.vertical,
+          children: [
+            SizedBox(
+              width: !ScreenHelper.isMobile(context)
+                  ? getMaxWidth(context) * 0.98 / 2
+                  : getMaxWidth(context) * 0.98,
+              child: Image.network(
+                  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80'),
+            ),
+            SizedBox(
+              height: ScreenHelper.isMobile(context) ? 20 : 0,
+              width: ScreenHelper.isMobile(context) ? 20 : 0,
+            ),
+            SizedBox(
+              width: !ScreenHelper.isMobile(context)
+                  ? getMaxWidth(context) * 0.98 / 2
+                  : getMaxWidth(context) * 0.98,
+              child: const Text(
+                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in "),
+            )
+          ],
+        )
       ],
     ),
   );
