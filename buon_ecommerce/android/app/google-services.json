@@ -29,6 +29,13 @@
             {
               "client_id": "191666435178-pi70bt01k30ngr1b0gkoov4nsv23jk3b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "191666435178-1eb1pbfqchsj1iemsprr9u6ki0re32md.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "apisod.com.buonEcommerce"
+              }
             }
           ]
         }

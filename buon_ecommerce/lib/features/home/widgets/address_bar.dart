@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utils/constants.dart';
 
@@ -10,25 +11,29 @@ class AddressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kPrimaryColor.withOpacity(0.7),
+      color: kAuxColor,
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            children: const [
-              Icon(Icons.location_pin),
-              SizedBox(width: 10),
-              Text('Delivering To '),
+            children: [
+              const Icon(Icons.location_pin, color: Colors.white),
+              const SizedBox(width: 10),
               Text(
-                'Gorushree',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                'Delivering To ',
+                style: GoogleFonts.raleway(color: Colors.white),
+              ),
+              Text(
+                'Gorushree: ',
+                style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.bold, color: Colors.white),
               )
             ],
           ),
-          const Text(
+          Text(
             'addess of gorushree',
-            style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+            style: GoogleFonts.raleway(fontSize: 12, color: Colors.white),
           )
         ],
       ),

@@ -5,10 +5,12 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
+  final Color borderColor;
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
+    this.borderColor = Colors.black,
     this.maxLines = 1,
   }) : super(key: key);
 
@@ -19,18 +21,22 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
             labelText: hintText,
-            labelStyle: GoogleFonts.satisfy(),
+            labelStyle: GoogleFonts.raleway(),
             hintText: hintText,
-            hintStyle: GoogleFonts.satisfy(),
+            hintStyle: GoogleFonts.raleway(),
             border: const OutlineInputBorder(
                 borderSide: BorderSide(
               color: Colors.black38,
             )),
-            enabledBorder: const OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(
-              color: Colors.black38,
-            ))),
+                  style: BorderStyle.solid,
+                  color: borderColor,
+                ))),
         validator: (val) {
           if (val == null || val.isEmpty) {
             return 'Enter your $hintText';
