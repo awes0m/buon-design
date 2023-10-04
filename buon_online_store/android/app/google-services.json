@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "198239262750",
+    "project_id": "buon-online-store",
+    "storage_bucket": "buon-online-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198239262750:android:ecacb31dbfc637ee22760f",
+        "android_client_info": {
+          "package_name": "apisod.com.buon_online_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqDnRH3lsgxfT2UL4tZiui8zb1HpPYgQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
