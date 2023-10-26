@@ -4,9 +4,14 @@ import '../core/core.dart';
 import 'app_text.dart';
 
 class ResponsiveButton extends StatelessWidget {
-  const ResponsiveButton({super.key, this.width, this.isResponsive = false});
+  const ResponsiveButton(
+      {super.key,
+      this.width,
+      this.isResponsive = false,
+      this.text = 'Book Now'});
   final bool isResponsive;
   final double? width;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +36,9 @@ class ResponsiveButton extends StatelessWidget {
               : MainAxisAlignment.center,
           children: <Widget>[
             if (isResponsive)
-              const Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: AppText(text: 'Book Now', color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: AppText(text: text, color: Colors.white),
               )
             else
               Container(),

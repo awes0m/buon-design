@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../core/core.dart';
-import '../../../models/custom_product.dart';
+import '../../../models/product.dart';
+import 'widgets/product_display_image.dart';
+import 'widgets/product_details.dart';
+import 'theme/product_page_theme.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends ConsumerStatefulWidget {
   final Product product;
 
   const ProductScreen(
@@ -12,167 +17,44 @@ class ProductScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends ConsumerState<ProductScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.courseCardColor,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        //  => Navigator.of(context).push(MaterialPageRoute(
+        //     builder: (context) => CustomizeProductForm(widget.product))),
+        mini: !ScreenHelper.isDesktop(context),
+        tooltip: 'Customize your order',
+        child: Container(
+            constraints: BoxConstraints.loose(const Size(100, 50)),
+            child: const Icon(FontAwesomeIcons.bagShopping)),
+      ),
+      backgroundColor: ProductPageTheme.courseCardColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(color: MyTheme.catalogueButtonColor),
+        leading: BackButton(color: ProductPageTheme.catalogueButtonColor),
       ),
       body: Stack(
         children: [
-          Column(children: [
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
-              flex: 35,
+              flex: 70, // percent of screen for image
               child: Center(
-                child: Image(
-                  image: NetworkImage(product.imageUrls[0]),
-                ),
+                child: ProductDisplayImage(product: widget.product),
               ),
             ),
-            const Spacer(
-              flex: 65,
-            )
+            const Spacer(flex: 50) // percent of screen for text
           ]),
-          DraggableScrollableSheet(
-            initialChildSize: 0.65,
-            minChildSize: 0.65,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(32.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ListView(
-                    controller: scrollController,
-                    children: [
-                      Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: MyTheme.grey.withOpacity(0.5),
-                              borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(1.0))),
-                          height: 4,
-                          width: 48,
-                        ),
-                      ),
-                      MyTheme.mediumVerticalPadding,
-                      Text(product.name,
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold)),
-                      Text(product.description,
-                          style: TextStyle(fontSize: 16, color: MyTheme.grey)),
-                      MyTheme.largeVerticalPadding,
-                      Row(
-                        children: [
-                          Text(product.price.toString(),
-                              style: const TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                // const Text("Progress: 100%"),
-                                Container(
-                                  margin: const EdgeInsets.fromLTRB(
-                                      32.0, 4.0, 32.0, 8.0),
-                                  height: 10,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    child: LinearProgressIndicator(
-                                      value: 1,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          MyTheme.progressColor),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      MyTheme.mediumVerticalPadding,
-                      const Text(
-                        "Learn the basics of lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      MyTheme.mediumVerticalPadding,
-                      Row(
-                        children: [
-                          const Spacer(
-                            flex: 2,
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: ElevatedButton(
-                                // TODO: uncomment to go to Graduation Screen
-                                onPressed: () {
-                                  openUrl('https://www.google.com');
-                                },
-                                child: const Text(
-                                  "Graduate",
-                                  style: TextStyle(fontWeight: FontWeight.w500),
-                                )),
-                          ),
-                          const Spacer(
-                            flex: 2,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+          ProductDetails(product: widget.product),
         ],
       ),
     );
   }
-}
-
-class MyTheme {
-  static Color get backgroundColor => const Color(0xFFF7F7F7);
-  static Color get grey => const Color(0xFF999999);
-  static Color get catalogueCardColor =>
-      const Color(0xFFBAE5D4).withOpacity(0.5);
-  static Color get catalogueButtonColor => const Color(0xFF29335C);
-  static Color get courseCardColor => const Color(0xFFEDF1F1);
-  static Color get progressColor => const Color(0xFF36F1CD);
-
-  static Padding get largeVerticalPadding =>
-      const Padding(padding: EdgeInsets.only(top: 32.0));
-
-  static Padding get mediumVerticalPadding =>
-      const Padding(padding: EdgeInsets.only(top: 16.0));
-
-  static Padding get smallVerticalPadding =>
-      const Padding(padding: EdgeInsets.only(top: 8.0));
-
-  static ThemeData get theme => ThemeData(
-        fontFamily: 'Poppins',
-        primarySwatch: Colors.blueGrey,
-      ).copyWith(
-        cardTheme: const CardTheme(
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16.0)))),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            elevation: MaterialStateProperty.all(0.0),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                catalogueButtonColor), // Button color
-            foregroundColor: MaterialStateProperty.all<Color>(
-                Colors.white), // Text and icon color
-          ),
-        ),
-      );
 }

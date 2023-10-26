@@ -25,7 +25,7 @@ Future<List<String>> pickimages() async {
   final List<XFile> imageFiles = await picker.pickMultiImage();
   if (imageFiles.isNotEmpty) {
     for (final XFile image in imageFiles) {
-      images.add(await image.readAsString());
+      images.add(image.path);
     }
   }
 

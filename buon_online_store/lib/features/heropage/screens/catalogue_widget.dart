@@ -1,5 +1,4 @@
 import 'package:buon_online_store/common/common.dart';
-import 'package:buon_online_store/features/common/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

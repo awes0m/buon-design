@@ -22,9 +22,11 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 mixin _$Order {
   String get uid => throw _privateConstructorUsedError;
   String get productName => throw _privateConstructorUsedError;
+  String get productCategory => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   String get contactNumber => throw _privateConstructorUsedError;
+  List<String> get imageUrls => throw _privateConstructorUsedError;
   List<String> get shippingAdress => throw _privateConstructorUsedError;
   bool get isConfirmed => throw _privateConstructorUsedError;
   bool get isShipped => throw _privateConstructorUsedError;
@@ -43,9 +45,11 @@ abstract class $OrderCopyWith<$Res> {
   $Res call(
       {String uid,
       String productName,
+      String productCategory,
       String username,
       String message,
       String contactNumber,
+      List<String> imageUrls,
       List<String> shippingAdress,
       bool isConfirmed,
       bool isShipped,
@@ -67,9 +71,11 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   $Res call({
     Object? uid = null,
     Object? productName = null,
+    Object? productCategory = null,
     Object? username = null,
     Object? message = null,
     Object? contactNumber = null,
+    Object? imageUrls = null,
     Object? shippingAdress = null,
     Object? isConfirmed = null,
     Object? isShipped = null,
@@ -84,6 +90,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.productName
           : productName // ignore: cast_nullable_to_non_nullable
               as String,
+      productCategory: null == productCategory
+          ? _value.productCategory
+          : productCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -96,6 +106,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      imageUrls: null == imageUrls
+          ? _value.imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       shippingAdress: null == shippingAdress
           ? _value.shippingAdress
           : shippingAdress // ignore: cast_nullable_to_non_nullable
@@ -126,9 +140,11 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   $Res call(
       {String uid,
       String productName,
+      String productCategory,
       String username,
       String message,
       String contactNumber,
+      List<String> imageUrls,
       List<String> shippingAdress,
       bool isConfirmed,
       bool isShipped,
@@ -148,9 +164,11 @@ class __$$OrderImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? productName = null,
+    Object? productCategory = null,
     Object? username = null,
     Object? message = null,
     Object? contactNumber = null,
+    Object? imageUrls = null,
     Object? shippingAdress = null,
     Object? isConfirmed = null,
     Object? isShipped = null,
@@ -165,6 +183,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.productName
           : productName // ignore: cast_nullable_to_non_nullable
               as String,
+      productCategory: null == productCategory
+          ? _value.productCategory
+          : productCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -177,6 +199,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.contactNumber
           : contactNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      imageUrls: null == imageUrls
+          ? _value._imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       shippingAdress: null == shippingAdress
           ? _value._shippingAdress
           : shippingAdress // ignore: cast_nullable_to_non_nullable
@@ -203,14 +229,17 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   const _$OrderImpl(
       {required this.uid,
       required this.productName,
+      required this.productCategory,
       required this.username,
       required this.message,
       required this.contactNumber,
+      required final List<String> imageUrls,
       required final List<String> shippingAdress,
       this.isConfirmed = false,
       this.isShipped = false,
       this.isDelivered = false})
-      : _shippingAdress = shippingAdress;
+      : _imageUrls = imageUrls,
+        _shippingAdress = shippingAdress;
 
   factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderImplFromJson(json);
@@ -220,11 +249,21 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
   @override
   final String productName;
   @override
+  final String productCategory;
+  @override
   final String username;
   @override
   final String message;
   @override
   final String contactNumber;
+  final List<String> _imageUrls;
+  @override
+  List<String> get imageUrls {
+    if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imageUrls);
+  }
+
   final List<String> _shippingAdress;
   @override
   List<String> get shippingAdress {
@@ -245,7 +284,7 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Order(uid: $uid, productName: $productName, username: $username, message: $message, contactNumber: $contactNumber, shippingAdress: $shippingAdress, isConfirmed: $isConfirmed, isShipped: $isShipped, isDelivered: $isDelivered)';
+    return 'Order(uid: $uid, productName: $productName, productCategory: $productCategory, username: $username, message: $message, contactNumber: $contactNumber, imageUrls: $imageUrls, shippingAdress: $shippingAdress, isConfirmed: $isConfirmed, isShipped: $isShipped, isDelivered: $isDelivered)';
   }
 
   @override
@@ -255,9 +294,11 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
       ..add(DiagnosticsProperty('type', 'Order'))
       ..add(DiagnosticsProperty('uid', uid))
       ..add(DiagnosticsProperty('productName', productName))
+      ..add(DiagnosticsProperty('productCategory', productCategory))
       ..add(DiagnosticsProperty('username', username))
       ..add(DiagnosticsProperty('message', message))
       ..add(DiagnosticsProperty('contactNumber', contactNumber))
+      ..add(DiagnosticsProperty('imageUrls', imageUrls))
       ..add(DiagnosticsProperty('shippingAdress', shippingAdress))
       ..add(DiagnosticsProperty('isConfirmed', isConfirmed))
       ..add(DiagnosticsProperty('isShipped', isShipped))
@@ -272,11 +313,15 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.productName, productName) ||
                 other.productName == productName) &&
+            (identical(other.productCategory, productCategory) ||
+                other.productCategory == productCategory) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.contactNumber, contactNumber) ||
                 other.contactNumber == contactNumber) &&
+            const DeepCollectionEquality()
+                .equals(other._imageUrls, _imageUrls) &&
             const DeepCollectionEquality()
                 .equals(other._shippingAdress, _shippingAdress) &&
             (identical(other.isConfirmed, isConfirmed) ||
@@ -293,9 +338,11 @@ class _$OrderImpl with DiagnosticableTreeMixin implements _Order {
       runtimeType,
       uid,
       productName,
+      productCategory,
       username,
       message,
       contactNumber,
+      const DeepCollectionEquality().hash(_imageUrls),
       const DeepCollectionEquality().hash(_shippingAdress),
       isConfirmed,
       isShipped,
@@ -319,9 +366,11 @@ abstract class _Order implements Order {
   const factory _Order(
       {required final String uid,
       required final String productName,
+      required final String productCategory,
       required final String username,
       required final String message,
       required final String contactNumber,
+      required final List<String> imageUrls,
       required final List<String> shippingAdress,
       final bool isConfirmed,
       final bool isShipped,
@@ -334,11 +383,15 @@ abstract class _Order implements Order {
   @override
   String get productName;
   @override
+  String get productCategory;
+  @override
   String get username;
   @override
   String get message;
   @override
   String get contactNumber;
+  @override
+  List<String> get imageUrls;
   @override
   List<String> get shippingAdress;
   @override

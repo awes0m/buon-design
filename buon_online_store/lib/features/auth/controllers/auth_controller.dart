@@ -1,4 +1,3 @@
-import 'package:buon_online_store/features/persitent_bottom_bar/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +5,7 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../apis/auth_api.dart';
 import '../../../core/core.dart';
+import '../../../router.dart';
 
 final StateNotifierProvider<AuthController, bool> authControllerProvider =
     StateNotifierProvider<AuthController, bool>(
@@ -45,10 +45,8 @@ class AuthController extends StateNotifier<bool> {
     final Either<Failure, UserCredential> res =
         await _authAPI.signInWithFacebook();
     state = false;
-    res.fold(
-        (Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => Navigator.of(context)
-            .pushNamed(HomePage.routeName, arguments: r.user));
+    res.fold((Failure l) => showSnackBar(context, l.message),
+        (UserCredential r) => navigateToHomepage(context, r));
   }
 
   Future<void> signinWithTwitter(BuildContext context) async {
@@ -56,10 +54,8 @@ class AuthController extends StateNotifier<bool> {
     final Either<Failure, UserCredential> res =
         await _authAPI.signInwithTwitter();
     state = false;
-    res.fold(
-        (Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => Navigator.of(context)
-            .pushNamed(HomePage.routeName, arguments: r.user));
+    res.fold((Failure l) => showSnackBar(context, l.message),
+        (UserCredential r) => navigateToHomepage(context, r));
   }
 
   Future<void> signinWithApple(BuildContext context) async {
@@ -67,9 +63,7 @@ class AuthController extends StateNotifier<bool> {
     final Either<Failure, UserCredential> res =
         await _authAPI.signInwithApple();
     state = false;
-    res.fold(
-        (Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => Navigator.of(context)
-            .pushNamed(HomePage.routeName, arguments: r.user));
+    res.fold((Failure l) => showSnackBar(context, l.message),
+        (UserCredential r) => navigateToHomepage(context, r));
   }
 }

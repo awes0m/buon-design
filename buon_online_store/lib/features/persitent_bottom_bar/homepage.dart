@@ -3,6 +3,8 @@ import 'package:buon_online_store/features/profile/screens/profile_screen.dart';
 import 'package:buon_online_store/features/heropage/screens/hero_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../core/general_providers.dart';
+import '../admin/admin_screen.dart';
 import 'persistent_bottom_bar_scaffold.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,6 +12,7 @@ class HomePage extends StatelessWidget {
   final _tab1navigatorKey = GlobalKey<NavigatorState>();
   final _tab2navigatorKey = GlobalKey<NavigatorState>();
   final _tab3navigatorKey = GlobalKey<NavigatorState>();
+  final _tab4navigatorKey = GlobalKey<NavigatorState>();
   final User user;
 
   HomePage(this.user, {super.key});
@@ -17,28 +20,57 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PersistentBottomBarScaffold(
-      items: [
-        PersistentTabItem(
-          tab: WelcomeScreen(user: user),
-          icon: Icons.home,
-          title: 'Home',
-          navigatorkey: _tab1navigatorKey,
-        ),
-        PersistentTabItem(
-          tab: const TabPage2(),
-          icon: Icons.search,
-          title: 'Search',
-          navigatorkey: _tab2navigatorKey,
-        ),
-        PersistentTabItem(
-          tab: ProfileScreen(
-            user: user,
-          ),
-          icon: Icons.person,
-          title: 'Profile',
-          navigatorkey: _tab3navigatorKey,
-        ),
-      ],
+      items: isUserAdmin(user)
+          ? [
+              PersistentTabItem(
+                tab: WelcomeScreen(user: user),
+                icon: Icons.home,
+                title: 'Home',
+                navigatorkey: _tab1navigatorKey,
+              ),
+              PersistentTabItem(
+                tab: const TabPage2(),
+                icon: Icons.search,
+                title: 'Search',
+                navigatorkey: _tab2navigatorKey,
+              ),
+              PersistentTabItem(
+                tab: ProfileScreen(
+                  user: user,
+                ),
+                icon: Icons.person,
+                title: 'Profile',
+                navigatorkey: _tab3navigatorKey,
+              ),
+              PersistentTabItem(
+                tab: const AdminScreen(),
+                icon: Icons.lock,
+                title: 'Admin',
+                navigatorkey: _tab4navigatorKey,
+              ),
+            ]
+          : [
+              PersistentTabItem(
+                tab: WelcomeScreen(user: user),
+                icon: Icons.home,
+                title: 'Home',
+                navigatorkey: _tab1navigatorKey,
+              ),
+              PersistentTabItem(
+                tab: const TabPage2(),
+                icon: Icons.search,
+                title: 'Search',
+                navigatorkey: _tab2navigatorKey,
+              ),
+              PersistentTabItem(
+                tab: ProfileScreen(
+                  user: user,
+                ),
+                icon: Icons.person,
+                title: 'Profile',
+                navigatorkey: _tab3navigatorKey,
+              ),
+            ],
     );
   }
 }

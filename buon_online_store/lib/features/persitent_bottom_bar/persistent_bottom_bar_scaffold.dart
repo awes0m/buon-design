@@ -1,3 +1,4 @@
+import 'package:buon_online_store/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class PersistentBottomBarScaffold extends StatefulWidget {
@@ -70,7 +71,9 @@ class _PersistentBottomBarScaffoldState
           },
           items: widget.items
               .map((item) => BottomNavigationBarItem(
-                  icon: Icon(item.icon), label: item.title))
+                  backgroundColor: Pallete.textColor,
+                  icon: Icon(item.icon),
+                  label: item.title))
               .toList(),
         ),
       ),

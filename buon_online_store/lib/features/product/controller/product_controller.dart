@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../models/product.dart';
 
-final StateNotifierProvider<HomeScreenController, bool>
-    homeScreenControllerProvider =
-    StateNotifierProvider<HomeScreenController, bool>(
-        (StateNotifierProviderRef<HomeScreenController, bool> ref) {
-  return HomeScreenController(productAPI: ref.watch(productAPIProvider));
+final StateNotifierProvider<ProductScreenController, bool>
+    productScreenControllerProvider =
+    StateNotifierProvider<ProductScreenController, bool>(
+        (StateNotifierProviderRef<ProductScreenController, bool> ref) {
+  return ProductScreenController(
+    productAPI: ref.watch(productAPIProvider),
+  );
 });
 
 final getAllProductsProvider = FutureProvider.autoDispose((ref) async {
@@ -19,8 +21,8 @@ final filteredProductsProvider =
   return productController.searchProductsByName(searchString);
 });
 
-class HomeScreenController extends StateNotifier<bool> {
-  HomeScreenController({
+class ProductScreenController extends StateNotifier<bool> {
+  ProductScreenController({
     required ProductAPI productAPI,
   })  : _productAPI = productAPI,
         super(false);
@@ -29,6 +31,10 @@ class HomeScreenController extends StateNotifier<bool> {
   Future<List<Product>> getAllProducts() async {
     return await _productAPI.getAllProducts();
   }
+
+  // FutureVoid createNewCustomProduct(CustomizedProduct productModel) async {
+  //   await _customProductAPI.createNewCustomProduct(productModel);
+  // }
 
   Future<List<Product>> searchProductsByName(String searchString) async {
     final List<Product> res = await _productAPI.getAllProducts();

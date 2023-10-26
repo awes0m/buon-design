@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'custom_product.dart';
+part of 'product.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -21,8 +21,10 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Product {
   String get name => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
+  List<String> get availableColors => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   bool get isCustom => throw _privateConstructorUsedError;
 
@@ -38,8 +40,10 @@ abstract class $ProductCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
+      String category,
       String description,
       List<String> imageUrls,
+      List<String> availableColors,
       double price,
       bool isCustom});
 }
@@ -58,8 +62,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   @override
   $Res call({
     Object? name = null,
+    Object? category = null,
     Object? description = null,
     Object? imageUrls = null,
+    Object? availableColors = null,
     Object? price = null,
     Object? isCustom = null,
   }) {
@@ -68,6 +74,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -75,6 +85,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
       imageUrls: null == imageUrls
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      availableColors: null == availableColors
+          ? _value.availableColors
+          : availableColors // ignore: cast_nullable_to_non_nullable
               as List<String>,
       price: null == price
           ? _value.price
@@ -97,8 +111,10 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
+      String category,
       String description,
       List<String> imageUrls,
+      List<String> availableColors,
       double price,
       bool isCustom});
 }
@@ -115,8 +131,10 @@ class __$$ProductImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? category = null,
     Object? description = null,
     Object? imageUrls = null,
+    Object? availableColors = null,
     Object? price = null,
     Object? isCustom = null,
   }) {
@@ -125,6 +143,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -132,6 +154,10 @@ class __$$ProductImplCopyWithImpl<$Res>
       imageUrls: null == imageUrls
           ? _value._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      availableColors: null == availableColors
+          ? _value._availableColors
+          : availableColors // ignore: cast_nullable_to_non_nullable
               as List<String>,
       price: null == price
           ? _value.price
@@ -150,17 +176,22 @@ class __$$ProductImplCopyWithImpl<$Res>
 class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
   const _$ProductImpl(
       {required this.name,
+      required this.category,
       required this.description,
       required final List<String> imageUrls,
+      required final List<String> availableColors,
       required this.price,
       this.isCustom = false})
-      : _imageUrls = imageUrls;
+      : _imageUrls = imageUrls,
+        _availableColors = availableColors;
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
 
   @override
   final String name;
+  @override
+  final String category;
   @override
   final String description;
   final List<String> _imageUrls;
@@ -171,6 +202,14 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
     return EqualUnmodifiableListView(_imageUrls);
   }
 
+  final List<String> _availableColors;
+  @override
+  List<String> get availableColors {
+    if (_availableColors is EqualUnmodifiableListView) return _availableColors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_availableColors);
+  }
+
   @override
   final double price;
   @override
@@ -179,7 +218,7 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Product(name: $name, description: $description, imageUrls: $imageUrls, price: $price, isCustom: $isCustom)';
+    return 'Product(name: $name, category: $category, description: $description, imageUrls: $imageUrls, availableColors: $availableColors, price: $price, isCustom: $isCustom)';
   }
 
   @override
@@ -188,8 +227,10 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
     properties
       ..add(DiagnosticsProperty('type', 'Product'))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('category', category))
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('imageUrls', imageUrls))
+      ..add(DiagnosticsProperty('availableColors', availableColors))
       ..add(DiagnosticsProperty('price', price))
       ..add(DiagnosticsProperty('isCustom', isCustom));
   }
@@ -200,10 +241,14 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
         (other.runtimeType == runtimeType &&
             other is _$ProductImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
+            const DeepCollectionEquality()
+                .equals(other._availableColors, _availableColors) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.isCustom, isCustom) ||
                 other.isCustom == isCustom));
@@ -211,8 +256,15 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, description,
-      const DeepCollectionEquality().hash(_imageUrls), price, isCustom);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      category,
+      description,
+      const DeepCollectionEquality().hash(_imageUrls),
+      const DeepCollectionEquality().hash(_availableColors),
+      price,
+      isCustom);
 
   @JsonKey(ignore: true)
   @override
@@ -231,8 +283,10 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
 abstract class _Product implements Product {
   const factory _Product(
       {required final String name,
+      required final String category,
       required final String description,
       required final List<String> imageUrls,
+      required final List<String> availableColors,
       required final double price,
       final bool isCustom}) = _$ProductImpl;
 
@@ -241,9 +295,13 @@ abstract class _Product implements Product {
   @override
   String get name;
   @override
+  String get category;
+  @override
   String get description;
   @override
   List<String> get imageUrls;
+  @override
+  List<String> get availableColors;
   @override
   double get price;
   @override

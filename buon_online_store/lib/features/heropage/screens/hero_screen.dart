@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants/constants.dart';
-import 'catalogue_screen.dart';
+import '../../../router.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
   final User user;
@@ -116,10 +116,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                                     // Catalog button
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const CatalogueScreen()));
+                                        navigateToCatalogueScreen(context);
                                       },
                                       child: const Text("Catalog",
                                           style: TextStyle(

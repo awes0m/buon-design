@@ -9,9 +9,11 @@ class Order with _$Order {
   const factory Order({
     required String uid,
     required String productName,
+    required String productCategory,
     required String username,
     required String message,
     required String contactNumber,
+    required List<String> imageUrls,
     required List<String> shippingAdress,
     @Default(false) bool isConfirmed,
     @Default(false) bool isShipped,

@@ -1,42 +1,42 @@
-import 'package:buon_online_store/features/heropage/screens/catalogue_screen.dart';
-import 'package:buon_online_store/features/persitent_bottom_bar/homepage.dart';
+import 'package:buon_online_store/features/admin/screens/products_management.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Route<dynamic> generateRoute(RouteSettings routeSettings) {
-  switch (routeSettings.name) {
-    // case AuthScreen.routeName:
-    //   return MaterialPageRoute<dynamic>(
-    //       settings: routeSettings, builder: (_) => const AuthScreen());
-    // case EmailVerificationScreen.routeName:
-    //   return MaterialPageRoute<dynamic>(
-    //       settings: routeSettings,
-    //       builder: (_) => const EmailVerificationScreen());
-    case HomePage.routeName:
-      final User user = routeSettings.arguments! as User;
-      return MaterialPageRoute<dynamic>(
-          settings: routeSettings, builder: (_) => HomePage(user));
+import 'features/admin/screens/add_product_form.dart';
+import 'features/heropage/screens/catalogue_screen.dart';
+import 'features/persitent_bottom_bar/homepage.dart';
+import 'features/product/screens/product_page.dart';
+import 'models/product.dart';
 
-    // case AddTripScreen.routeName:
-    //   return MaterialPageRoute<dynamic>(
-    //       settings: routeSettings, builder: (_) => const AddTripScreen());
+// list of routing functions
 
-    // case SellerPlansEditorScreen.routeName:
-    //   return MaterialPageRoute<dynamic>(
-    //       settings: routeSettings,
-    //       builder: (_) => const SellerPlansEditorScreen());
-    case CatalogueScreen.routeName:
-      return MaterialPageRoute<dynamic>(
-          settings: routeSettings, builder: (_) => const CatalogueScreen());
+/// HomePage
+Future<Object?> navigateToHomepage(BuildContext context, UserCredential r) {
+  return Navigator.of(context).pushNamed(HomePage.routeName, arguments: r.user);
+}
 
-    default:
-      return MaterialPageRoute<dynamic>(
-        settings: routeSettings,
-        builder: (_) => const Scaffold(
-          body: Center(
-            child: Text("Error 404, Page doesen't Exist"),
-          ),
-        ),
-      );
-  }
+/// Catalogue
+Future<dynamic> navigateToCatalogueScreen(BuildContext context) {
+  return Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => const CatalogueScreen()));
+}
+
+/// Single Product Page
+void navigateToSingleProductScreen(BuildContext context, Product product) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => ProductScreen(product)),
+  );
+}
+
+// Admin routes
+//Add Products
+void navigateToAddProductForm(BuildContext context) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (ctx) => const AddProductForm()));
+}
+
+void navigateToProductsManagementScreen(BuildContext context) {
+  Navigator.of(context).push(
+      MaterialPageRoute(builder: (ctx) => const ProductsManagementScreen()));
 }

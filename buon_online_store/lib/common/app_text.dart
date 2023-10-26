@@ -1,3 +1,4 @@
+import 'package:buon_online_store/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
@@ -5,7 +6,7 @@ class AppText extends StatelessWidget {
       {super.key,
       this.size = 16,
       required this.text,
-      this.color = Colors.black54});
+      this.color = Pallete.textColor});
   final double size;
   final String text;
   final Color color;

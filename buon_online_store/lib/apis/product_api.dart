@@ -1,10 +1,10 @@
 // // import 'package:appwrite/models.dart' as model;
 
 import 'package:buon_online_store/core/general_providers.dart';
-import 'package:buon_online_store/models/custom_product.dart';
-import 'package:buon_online_store/src/src.dart';
+import 'package:buon_online_store/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../core/core.dart';
 
@@ -32,6 +32,12 @@ class ProductAPI implements IProductAPI {
   @override
   FutureEitherVoid createNewProduct(Product productModel) async {
     try {
+      final collectionReference = _db.collection("products");
+      final collectionExists = await collectionReference.get();
+      if (collectionExists.docs.isEmpty) {
+        // Collection does not exist, create it
+        await collectionReference.add({}); // Add a dummy document
+      }
       await _db.collection("products").add(productModel.toJson());
       return right(null);
     } on FirebaseException catch (e) {

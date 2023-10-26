@@ -1,13 +1,12 @@
 import 'package:buon_online_store/features/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:buon_online_store/constants/constants.dart';
 import 'package:buon_online_store/core/core.dart';
-import 'package:buon_online_store/src/src.dart';
 import 'package:buon_online_store/theme/theme.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../common/common.dart';
 
@@ -45,24 +44,30 @@ class LoginScreen extends ConsumerWidget {
                   border: Border.all(color: Colors.transparent),
                   borderRadius: const BorderRadius.all(Radius.circular(3)),
                 ),
-                child: CarouselSlider.builder(
-                    itemCount: 3,
-                    itemBuilder: (ctx, index, _) {
-                      return SvgPicture.asset(
-                        'assets/images/signUpcarousel_${index + 1}.svg',
-                        fit: BoxFit.contain,
-                      );
-                    },
-                    options: CarouselOptions(
-                      viewportFraction: 1,
-                      autoPlayCurve: Curves.slowMiddle,
-                      autoPlay: true,
-                      autoPlayAnimationDuration: const Duration(seconds: 3),
-                    )),
+                child:
+                    // CarouselSlider.builder(
+                    //     itemCount: 3,
+                    //     itemBuilder: (ctx, index, _) {
+                    //       return SvgPicture.asset(
+                    //         'assets/images/signUpcarousel_${index + 1}.svg',
+                    //         fit: BoxFit.contain,
+                    //       );
+                    //     },
+                    //     options: CarouselOptions(
+                    //       viewportFraction: 1,
+                    //       autoPlayCurve: Curves.slowMiddle,
+                    //       autoPlay: true,
+                    //       autoPlayAnimationDuration: const Duration(seconds: 3),
+                    //     )),
+                    Lottie.asset('assets/animations/welcome.json',
+                        frameRate: FrameRate(2),
+                        repeat: false,
+                        onLoaded: (composition) {}),
               ),
               verticalGap(20),
               appText(
-                  '-------------------------- Sign in  -------------------------'),
+                'Sign in to continue',
+              ),
               verticalGap(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

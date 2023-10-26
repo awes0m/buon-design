@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:buon_online_store/features/product/screens/product_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/constants.dart';
-import '../../core/core.dart';
-import '../../models/custom_product.dart';
+import '../constants/constants.dart';
+import '../core/core.dart';
+import '../models/product.dart';
+import '../router.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -19,12 +19,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProductScreen(product)),
-        );
-      },
+      onTap: () => navigateToSingleProductScreen(context, product),
       child: Card(
           child: Padding(
         padding: const EdgeInsets.all(8.0),

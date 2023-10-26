@@ -46,7 +46,7 @@ class _ListFormWidgetState extends State<ListFormWidget> {
         children: <Widget>[
           CustomTextField(
             controller: _itineraryController,
-            hintText: 'Add Item',
+            hintText: 'Add ${widget.itemName}',
             validator: (String? val) => null,
           ),
           const SizedBox(height: 16.0),

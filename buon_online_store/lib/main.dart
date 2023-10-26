@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -9,12 +10,13 @@ import 'common/common.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/persitent_bottom_bar/homepage.dart';
 import 'firebase_options.dart';
-import 'router.dart';
 import 'theme/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: ".env");
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -57,7 +59,6 @@ class MyApp extends ConsumerWidget {
                 const Breakpoint(start: 12001, end: 2460, name: '4k'), //4k
               ],
             ),
-        onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
         home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
