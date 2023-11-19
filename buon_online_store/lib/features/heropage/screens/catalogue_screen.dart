@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'widget/catalog_widgets.dart';
+import 'widget/catalogue_tab_list.dart';
 
 class CatalogueScreen extends ConsumerStatefulWidget {
   const CatalogueScreen({super.key});

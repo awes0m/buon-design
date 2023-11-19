@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:buon_online_store/core/core.dart';
-import 'package:buon_online_store/features/heropage/screens/catalogue_widget.dart';
+import 'package:buon_online_store/features/heropage/screens/all_products_grid.dart';
 
 import '../../../constants/constants.dart';
 import '../../../router.dart';
@@ -157,7 +157,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             ],
           ),
 
-          const CatalogCards(),
+          const AllProductsGrid(),
         ],
       ),
     );
