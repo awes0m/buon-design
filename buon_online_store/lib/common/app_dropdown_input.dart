@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppDropdownInput<T> extends StatelessWidget {
-
   const AppDropdownInput({
     super.key,
     this.hintText = 'Please select an Option',

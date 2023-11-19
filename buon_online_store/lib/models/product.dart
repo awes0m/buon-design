@@ -13,6 +13,7 @@ class Product with _$Product {
     required List<String> availableColors,
     required double price,
     @Default(false) bool isCustom,
+    @Default(false) bool isBestSeller,
   }) = _Product;
 
   factory Product.fromJson(Map<String, dynamic> json) =>

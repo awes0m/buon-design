@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'common/common.dart';
-import 'features/auth/screens/login_screen.dart';
 import 'features/persitent_bottom_bar/homepage.dart';
 import 'firebase_options.dart';
 import 'theme/theme.dart';
@@ -65,10 +64,10 @@ class MyApp extends ConsumerWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               final user = snapshot.data;
               if (user == null) {
-                return const LoginScreen();
+                return HomePage();
               } else {
                 // User is logged in, show the home page
-                return HomePage(user);
+                return HomePage(key, user);
               }
             }
             return const Loader();

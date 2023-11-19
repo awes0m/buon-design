@@ -1,6 +1,7 @@
 import 'package:buon_online_store/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../core/core.dart';
 import '../controller/heroscreen_controller.dart';
@@ -18,13 +19,14 @@ class _CatalogCardsState extends ConsumerState<CatalogCards> {
   Widget build(BuildContext context) {
     return ref.watch(getAllProductsProvider).when(
         data: (productList) {
-          return GridView.count(
-            childAspectRatio: ScreenHelper.isMobile(context) ? 0.75 : 1.2,
-            shrinkWrap: true,
+          return StaggeredGrid.count(
+            axisDirection: AxisDirection.down,
+            // childAspectRatio: ScreenHelper.isMobile(context) ? 0.75 : 1.2,
+            // shrinkWrap: true,
             crossAxisCount: ScreenHelper.isMobile(context) ? 2 : 4,
             mainAxisSpacing: 4.0,
             crossAxisSpacing: 4.0,
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             children: productList
                 .map((e) => ProductCard(
                       context: context,

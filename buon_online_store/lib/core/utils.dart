@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_final_locals
 
 import 'dart:math';
+import 'dart:typed_data';
 
+import 'package:buon_online_store/models/image_file_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,14 +21,15 @@ String getNameFromEmail(String email) {
   return email.split('@')[0];
 }
 
-Future<List<String>> pickimages() async {
-  List<String> images = <String>[];
+Future<List<ImageFileData>> pickimages() async {
+  List<ImageFileData> images = <ImageFileData>[];
   final ImagePicker picker = ImagePicker();
 
   final List<XFile> imageFiles = await picker.pickMultiImage();
   if (imageFiles.isNotEmpty) {
     for (final XFile image in imageFiles) {
-      images.add(image.path);
+      Uint8List bytes = await image.readAsBytes();
+      images.add(ImageFileData(metadata: image.mimeType!, bytes: bytes));
     }
   }
 
@@ -64,10 +68,10 @@ const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 const String _chars =
     'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
-
-String getRandomString(int length) =>
-    String.fromCharCodes(Iterable<int>.generate(
-        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+String getRandomString(int length) => String.fromCharCodes(
+      Iterable<int>.generate(
+          length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))),
+    );
 
 String? extractImageId(String inputString) {
   final RegExp regex = RegExp(r'/files/([^/]+)/');
@@ -84,4 +88,57 @@ Future<void> openUrl(String url) async {
   if (!await launchUrl(Uri.parse(url))) {
     throw Exception('Could not launch $url');
   }
+}
+
+// ValueChanged<Color> callback
+void pickColor(context, setState, Color currentColor) {
+// create some values
+  late Color pickerColor = const Color.fromARGB(255, 255, 255, 255);
+// raise the [showDialog] widget
+  showDialog(
+    builder: (context) => AlertDialog(
+      title: const Text('Pick a color!'),
+      content: SingleChildScrollView(
+        child: BlockPicker(
+          useInShowDialog: true,
+          pickerColor: pickerColor,
+          onColorChanged: (currentColor) {
+            currentColor = pickerColor;
+          },
+        ),
+        // Use Material color picker:
+        //
+        // child: MaterialPicker(
+        //   pickerColor: pickerColor,
+        //   onColorChanged: changeColor,
+        //   showLabel: true, // only on portrait mode
+        // ),
+        //
+        // Use Block color picker:
+        //
+        // child: BlockPicker(
+        //   pickerColor: currentColor,
+        //   onColorChanged: changeColor,
+        // ),
+        //
+        // child: MultipleChoiceBlockPicker(
+        //   pickerColors: currentColors,
+        //   onColorsChanged: changeColors,
+        // ),
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          child: const Text('Got it'),
+          onPressed: () {
+            setState(() {
+              currentColor = pickerColor;
+            });
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+    context: context,
+  );
+// raise the [showDialog] widget
 }

@@ -1,19 +1,22 @@
-import 'package:buon_online_store/core/core.dart';
-import 'package:buon_online_store/features/heropage/screens/catalogue_widget.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'dart:js_interop';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:buon_online_store/core/core.dart';
+import 'package:buon_online_store/features/heropage/screens/catalogue_widget.dart';
+
 import '../../../constants/constants.dart';
 import '../../../router.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
-  final User user;
-  const WelcomeScreen({
-    super.key,
-    required this.user,
-  });
+  final User? user;
+
+  const WelcomeScreen({this.user, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _WelcomeScreenState();
@@ -37,7 +40,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           Row(
             children: [
               Text(
-                "Hi ${widget.user.displayName}!",
+                "Hi ${widget.user.isDefinedAndNotNull ? widget.user!.displayName : 'There 🫰'}!",
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -46,18 +49,19 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           CustomPaddings.mediumVerticalPadding,
           //search bar
           const Card(
-              child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.search, color: Colors.grey),
-                Text(
-                  "Seach our 1000+ products",
-                  style: TextStyle(color: Colors.grey),
-                )
-              ],
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.search, color: Colors.grey),
+                  Text(
+                    "Seach our 1000+ products",
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
             ),
-          )),
+          ),
           //Hero section
           SizedBox(
             height: ScreenHelper.isMobile(context)
@@ -142,6 +146,8 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           ),
           // Trending products
           CustomPaddings.largeVerticalPadding,
+          CustomPaddings.largeVerticalPadding,
+          //Trending products
           const Row(
             children: [
               Text("Trending Products",
@@ -150,6 +156,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
               Icon(Icons.tune)
             ],
           ),
+
           const CatalogCards(),
         ],
       ),

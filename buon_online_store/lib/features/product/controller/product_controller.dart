@@ -1,6 +1,6 @@
-import 'package:buon_online_store/apis/product_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../apis/product_api.dart';
 import '../../../models/product.dart';
 
 final StateNotifierProvider<ProductScreenController, bool>
@@ -31,10 +31,6 @@ class ProductScreenController extends StateNotifier<bool> {
   Future<List<Product>> getAllProducts() async {
     return await _productAPI.getAllProducts();
   }
-
-  // FutureVoid createNewCustomProduct(CustomizedProduct productModel) async {
-  //   await _customProductAPI.createNewCustomProduct(productModel);
-  // }
 
   Future<List<Product>> searchProductsByName(String searchString) async {
     final List<Product> res = await _productAPI.getAllProducts();

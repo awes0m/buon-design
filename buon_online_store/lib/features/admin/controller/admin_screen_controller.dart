@@ -1,5 +1,7 @@
 import 'package:buon_online_store/apis/product_api.dart';
 import 'package:buon_online_store/apis/storage_api.dart';
+import 'package:buon_online_store/common/logging_service.dart';
+import 'package:buon_online_store/models/image_file_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,27 +58,37 @@ class AdminScreenController extends StateNotifier<bool> {
     String category,
     String description,
     List<String> availableColors,
-    List<String> imagePaths,
+    List<ImageFileData> imagePaths,
     double price,
+    bool isCustom,
+    bool isBestSeller,
   ) async {
-    List<String> uploadedImageUrls = [];
-    // Upload Images to storage
     try {
-      var res = await _storageAPI.uploadImages(imagePaths);
-      res.fold((l) => showSnackBar(context, l.message),
-          (r) => uploadedImageUrls = r);
-
-      if (uploadedImageUrls.isNotEmpty) {
-        Product product = Product(
-            name: name,
-            category: category,
-            description: description,
-            imageUrls: uploadedImageUrls,
-            availableColors: availableColors,
-            price: price);
-        await _productAPI.createNewProduct(product);
-      }
-    } catch (e) {
+      state = true;
+      final NavigatorState navigator = Navigator.of(context);
+      localSnackbar(text) => showSnackBar(context, text);
+      List<String> imageUrls = await _storageAPI.uploadImages(imagePaths);
+      Product newProduct = Product(
+        name: name,
+        category: category,
+        description: description,
+        imageUrls: imageUrls,
+        availableColors: availableColors,
+        price: price,
+        isCustom: isCustom,
+        isBestSeller: isBestSeller,
+      );
+      LoggingService.logText(
+          'Uploading Product ${newProduct.toJson().toString()}');
+      var res = await _productAPI.createNewProduct(newProduct);
+      state = false;
+      res.fold((l) => localSnackbar(l), (r) {
+        localSnackbar('Product created');
+        navigator.pop();
+      });
+    } on Failure catch (e) {
+      showSnackBar(context, e.message);
+    } on Exception catch (e) {
       showSnackBar(context, e.toString());
     }
   }

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
@@ -18,51 +19,65 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => navigateToSingleProductScreen(context, product),
       child: Card(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: ScreenHelper.isMobile(context) ? 3 : 8,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  image: NetworkImage(product.imageUrls[0]),
+        child: Container(
+          constraints: BoxConstraints(
+              maxWidth: ScreenHelper.isMobile(context)
+                  ? size.width / 2 - 20
+                  : size.width / 4 - 20,
+              maxHeight: 280),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 8, // ScreenHelper.isMobile(context) ? 3 : 8,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(2, 5, 2, 5),
+                  child: Image(
+                    fit: BoxFit.contain,
+                    image: CachedNetworkImageProvider(product.imageUrls[0]),
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-                flex: 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(product.name,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
+              Expanded(
+                  flex: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(product.name,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    Text(product.description,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey)),
-                    CustomPaddings.smallVerticalPadding,
-                    Text(
-                      product.price.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ))
-          ],
+                      const SizedBox(
+                        height: 4.0,
+                      ),
+                      Text(
+                          product.isCustom
+                              ? 'Customizable'
+                              : 'Standard Product',
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.grey)),
+                      CustomPaddings.smallVerticalPadding,
+                      Text(
+                        'Starting only at Rs ${product.price.toString()}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
         ),
       )),
     );

@@ -27,6 +27,7 @@ mixin _$Product {
   List<String> get availableColors => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   bool get isCustom => throw _privateConstructorUsedError;
+  bool get isBestSeller => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $ProductCopyWith<$Res> {
       List<String> imageUrls,
       List<String> availableColors,
       double price,
-      bool isCustom});
+      bool isCustom,
+      bool isBestSeller});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? availableColors = null,
     Object? price = null,
     Object? isCustom = null,
+    Object? isBestSeller = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -98,6 +101,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.isCustom
           : isCustom // ignore: cast_nullable_to_non_nullable
               as bool,
+      isBestSeller: null == isBestSeller
+          ? _value.isBestSeller
+          : isBestSeller // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -116,7 +123,8 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       List<String> imageUrls,
       List<String> availableColors,
       double price,
-      bool isCustom});
+      bool isCustom,
+      bool isBestSeller});
 }
 
 /// @nodoc
@@ -137,6 +145,7 @@ class __$$ProductImplCopyWithImpl<$Res>
     Object? availableColors = null,
     Object? price = null,
     Object? isCustom = null,
+    Object? isBestSeller = null,
   }) {
     return _then(_$ProductImpl(
       name: null == name
@@ -167,6 +176,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.isCustom
           : isCustom // ignore: cast_nullable_to_non_nullable
               as bool,
+      isBestSeller: null == isBestSeller
+          ? _value.isBestSeller
+          : isBestSeller // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -181,7 +194,8 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
       required final List<String> imageUrls,
       required final List<String> availableColors,
       required this.price,
-      this.isCustom = false})
+      this.isCustom = false,
+      this.isBestSeller = false})
       : _imageUrls = imageUrls,
         _availableColors = availableColors;
 
@@ -215,10 +229,13 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
   @override
   @JsonKey()
   final bool isCustom;
+  @override
+  @JsonKey()
+  final bool isBestSeller;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Product(name: $name, category: $category, description: $description, imageUrls: $imageUrls, availableColors: $availableColors, price: $price, isCustom: $isCustom)';
+    return 'Product(name: $name, category: $category, description: $description, imageUrls: $imageUrls, availableColors: $availableColors, price: $price, isCustom: $isCustom, isBestSeller: $isBestSeller)';
   }
 
   @override
@@ -232,7 +249,8 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
       ..add(DiagnosticsProperty('imageUrls', imageUrls))
       ..add(DiagnosticsProperty('availableColors', availableColors))
       ..add(DiagnosticsProperty('price', price))
-      ..add(DiagnosticsProperty('isCustom', isCustom));
+      ..add(DiagnosticsProperty('isCustom', isCustom))
+      ..add(DiagnosticsProperty('isBestSeller', isBestSeller));
   }
 
   @override
@@ -251,7 +269,9 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
                 .equals(other._availableColors, _availableColors) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.isCustom, isCustom) ||
-                other.isCustom == isCustom));
+                other.isCustom == isCustom) &&
+            (identical(other.isBestSeller, isBestSeller) ||
+                other.isBestSeller == isBestSeller));
   }
 
   @JsonKey(ignore: true)
@@ -264,7 +284,8 @@ class _$ProductImpl with DiagnosticableTreeMixin implements _Product {
       const DeepCollectionEquality().hash(_imageUrls),
       const DeepCollectionEquality().hash(_availableColors),
       price,
-      isCustom);
+      isCustom,
+      isBestSeller);
 
   @JsonKey(ignore: true)
   @override
@@ -288,7 +309,8 @@ abstract class _Product implements Product {
       required final List<String> imageUrls,
       required final List<String> availableColors,
       required final double price,
-      final bool isCustom}) = _$ProductImpl;
+      final bool isCustom,
+      final bool isBestSeller}) = _$ProductImpl;
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
@@ -306,6 +328,8 @@ abstract class _Product implements Product {
   double get price;
   @override
   bool get isCustom;
+  @override
+  bool get isBestSeller;
   @override
   @JsonKey(ignore: true)
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>

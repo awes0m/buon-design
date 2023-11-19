@@ -15,13 +15,6 @@ final StateNotifierProvider<AuthController, bool> authControllerProvider =
   );
 });
 
-final FutureProvider<User?> currentUserAccountProvider =
-    FutureProvider<User?>((FutureProviderRef<Object?> ref) {
-  final AuthController authController =
-      ref.watch(authControllerProvider.notifier);
-  return authController.currentUser();
-});
-
 class AuthController extends StateNotifier<bool> {
   AuthController({
     required AuthAPI authAPI,
@@ -30,7 +23,6 @@ class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI;
   // state = isLoading
 
-  Future<User?> currentUser() => _authAPI.currentUserAccount();
   Future<void> signinWithGoogle(BuildContext context) async {
     state = true;
     final Either<Failure, UserCredential> res =

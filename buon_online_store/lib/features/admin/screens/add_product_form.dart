@@ -1,5 +1,6 @@
 import 'package:buon_online_store/core/enums.dart';
 import 'package:buon_online_store/features/admin/controller/admin_screen_controller.dart';
+import 'package:buon_online_store/models/image_file_data.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +21,8 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
 
   Categories selectedCategory = Categories.polaroid;
   bool _isCustomProduct = true;
-  List<String> imageFiles = <String>[];
+  bool _isBestSeller = false;
+  List<ImageFileData> imageFiles = <ImageFileData>[];
   List<String> availableColors = <String>[];
 
   final TextEditingController _nameController = TextEditingController();
@@ -43,22 +45,19 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
   }
 
   Future<void> onPickImages() async {
-    List<String> imageLink = await pickimages();
+    List<ImageFileData> imageLink = await pickimages();
 
     setState(() {
       imageFiles = imageLink;
     });
   }
 
-  Future<void> onSubmit() async {
+  void onSubmit() {
     if (imageFiles.isEmpty) {
       return showSnackBar(context, "Please select atleast one image");
-    } else if (_formKey.currentState!.validate()) {
-      // Create a Product object from the input fields
-
-      final NavigatorState navigator = Navigator.of(context);
-
-      await ref.read(adminScreenControllerProvider.notifier).createANewProduct(
+    }
+    if (_formKey.currentState!.validate()) {
+      ref.read(adminScreenControllerProvider.notifier).createANewProduct(
             context,
             _nameController.text,
             selectedCategory.name,
@@ -66,8 +65,9 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
             availableColors,
             imageFiles,
             double.parse(_priceController.text),
+            _isCustomProduct,
+            _isBestSeller,
           );
-      navigator.pop();
     } else {
       return showSnackBar(context, "Please fill all the required fields");
     }
@@ -155,8 +155,8 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
                             ? const Icon(Icons.add)
                             : CarouselSlider(
                                 items: imageFiles
-                                    .map((String e) => Image.network(
-                                          e,
+                                    .map((ImageFileData e) => Image.memory(
+                                          e.bytes,
                                           fit: BoxFit.fitHeight,
                                         ))
                                     .toList(),
@@ -178,10 +178,10 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
                   verticalGap(),
                   // Colors
 
-                  ListFormWidget(
-                    availableColors,
-                    itemName: "Available Colors",
-                  ),
+                  // ListFormWidget(
+                  //   availableColors,
+                  //   itemName: "Available Colors",
+                  // ),
                   verticalGap(),
                   // Is Custom Product
                   CheckboxListTile(
@@ -190,6 +190,15 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
                     onChanged: (bool? value) {
                       setState(() {
                         _isCustomProduct = value!;
+                      });
+                    },
+                  ),
+                  CheckboxListTile(
+                    title: const Text('Is Custom Product'),
+                    value: _isBestSeller,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _isBestSeller = value!;
                       });
                     },
                   ),

@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_final_locals
 
-import 'dart:io';
-
 import 'package:buon_online_store/core/core.dart';
+import 'package:buon_online_store/models/image_file_data.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 
+import '../common/logging_service.dart';
 import '../core/general_providers.dart';
 
 final Provider<StorageAPI> storageAPIProvider =
@@ -17,13 +15,35 @@ final Provider<StorageAPI> storageAPIProvider =
 
 abstract class IStorageAPI {
   Future<List<String>> fetchProductImages();
-  FutureEither<List<String>> uploadImages(List<String> imageFiles);
+  Future<List<String>> uploadImages(List<ImageFileData> imageFiles,
+      {String? name});
   Future<List<String>> fetchCarouselImages();
 }
 
 class StorageAPI implements IStorageAPI {
   StorageAPI({required Reference storageRef}) : _storageRef = storageRef;
   final Reference _storageRef;
+
+  @override
+  Future<List<String>> uploadImages(List<ImageFileData> imageFiles,
+      {String? name}) async {
+    List<String> imageUrls = [];
+    try {
+      for (var imageFile in imageFiles) {
+        String fileName = '${name ?? name}_${getRandomString(10)}';
+        TaskSnapshot res = await _storageRef
+            .child('productImages/$fileName')
+            .putData(imageFile.bytes,
+                SettableMetadata(contentType: imageFile.metadata));
+        imageUrls.add(
+            await res.storage.ref('productImages/$fileName').getDownloadURL());
+      }
+      LoggingService.logText(imageUrls.toString());
+    } on FirebaseException catch (e) {
+      LoggingService.logText(e.message!);
+    }
+    return imageUrls;
+  }
 
   @override
   Future<List<String>> fetchCarouselImages() {
@@ -33,21 +53,5 @@ class StorageAPI implements IStorageAPI {
   @override
   Future<List<String>> fetchProductImages() {
     throw UnimplementedError();
-  }
-
-  @override
-  FutureEither<List<String>> uploadImages(List<String> imageFiles) async {
-    List<String> generatedImageUrls = [];
-    try {
-      for (var imageFile in imageFiles) {
-        TaskSnapshot res = await _storageRef.putFile(File(imageFile));
-        res.storage.ref().getDownloadURL().then((value) {
-          generatedImageUrls.append(value);
-        });
-      }
-    } catch (e) {
-      return left(Failure(e.toString()));
-    }
-    return right(generatedImageUrls);
   }
 }

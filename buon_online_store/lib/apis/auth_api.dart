@@ -13,6 +13,11 @@ final Provider<AuthAPI> authAPIProvider =
   final FirebaseAuth auth = ref.watch(firebaseAuthProvider);
   return AuthAPI(auth: auth);
 });
+final FutureProvider<User?> currentUserAccountProvider =
+    FutureProvider<User?>((FutureProviderRef<Object?> ref) {
+  final AuthAPI authController = ref.watch(authAPIProvider);
+  return authController.currentUserAccount();
+});
 
 //class defination
 abstract class IAuthAPI {
@@ -93,7 +98,6 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  @override
   FutureEither<UserCredential> signInwithApple() async {
     try {
       final provider = OAuthProvider("apple.com")
@@ -145,5 +149,5 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  Future<User?> currentUserAccount() async => _auth.currentUser;
+  Future<User> currentUserAccount() async => _auth.currentUser!;
 }

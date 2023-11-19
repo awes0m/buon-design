@@ -9,8 +9,8 @@ enum Categories {
   final String type;
 }
 
-extension ConvertSeason on String {
-  Categories toSeasonEnum() {
+extension ConvertCategory on String {
+  Categories toCategoryEnum() {
     switch (this) {
       case 'shirt':
         return Categories.shirt;
