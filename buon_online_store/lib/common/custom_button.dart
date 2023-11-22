@@ -8,17 +8,20 @@ class CustomButton extends StatelessWidget {
     this.textColor,
     required this.onTap,
     this.color,
+    this.size,
   }) : super(key: key);
   final String text;
   final Color? textColor;
   final VoidCallback onTap;
   final Color? color;
+  final Size? size;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
+        fixedSize: size,
         elevation: 0,
         minimumSize: const Size(double.infinity, 50),
         backgroundColor: color ?? Theme.of(context).colorScheme.primary,

@@ -51,14 +51,8 @@ class ProductAPI implements IProductAPI {
     /// Returns a `FutureEitherVoid` indicating success or failure.
     try {
       final collectionReference = _db.collection("products");
-      final collectionExists = await collectionReference.get();
-      if (collectionExists.docs.isEmpty) {
-        // Collection does not exist, create it
-        await collectionReference.add(productModel.toJson());
-        return right(null);
-        // Add a dummy document
-      }
-      await _db.collection("products").add(productModel.toJson());
+
+      await collectionReference.add(productModel.toJson());
       return right(null);
     } on FirebaseException catch (e) {
       return left(Failure(e.toString()));

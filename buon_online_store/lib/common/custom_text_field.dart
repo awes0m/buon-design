@@ -9,29 +9,35 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.width,
+    this.height,
     this.maxLines = 1,
     this.borderColor = Colors.black,
     this.validator,
     this.onPressed,
     this.textfieldButtonName,
     this.keyboardType,
+    this.obscureText,
   });
   final TextEditingController controller;
   final String hintText;
   final double? width;
+  final double? height;
   final int maxLines;
   final Color borderColor;
   final String? Function(String?)? validator;
   final VoidCallback? onPressed;
   final String? textfieldButtonName;
   final TextInputType? keyboardType;
+  final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      height: height,
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: TextFormField(
+        obscureText: obscureText ?? false,
         keyboardType: keyboardType,
         controller: controller,
         decoration: InputDecoration(

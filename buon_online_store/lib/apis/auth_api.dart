@@ -1,4 +1,6 @@
 import 'package:buon_online_store/core/general_providers.dart';
+import 'package:buon_online_store/models/app_user_info.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -10,8 +12,9 @@ import '../core/core.dart';
 
 final Provider<AuthAPI> authAPIProvider =
     Provider<AuthAPI>((ProviderRef<Object?> ref) {
-  final FirebaseAuth auth = ref.watch(firebaseAuthProvider);
-  return AuthAPI(auth: auth);
+  return AuthAPI(
+      auth: ref.watch(firebaseAuthProvider),
+      db: ref.watch(firebaseFirestoreProvider));
 });
 final FutureProvider<User?> currentUserAccountProvider =
     FutureProvider<User?>((FutureProviderRef<Object?> ref) {
@@ -21,17 +24,25 @@ final FutureProvider<User?> currentUserAccountProvider =
 
 //class defination
 abstract class IAuthAPI {
+  FutureEither<UserCredential> signUpWithEmail(String email, String password);
+  FutureEither<UserCredential> logInWithEmail(String email, String password);
   FutureEither<UserCredential> signInwithApple();
   FutureEither<UserCredential> signInwithTwitter();
   FutureEither<UserCredential> signInWithGoogle();
   FutureEither<UserCredential> signInWithFacebook();
+  Future<bool> storeUserInfo(UserCredential credentials);
+
   Future<User?> currentUserAccount();
+  Future<void> signOut();
 }
 
 //Implementaion
 class AuthAPI implements IAuthAPI {
-  AuthAPI({required FirebaseAuth auth}) : _auth = auth;
+  AuthAPI({required FirebaseAuth auth, required FirebaseFirestore db})
+      : _auth = auth,
+        _db = db;
   final FirebaseAuth _auth;
+  final FirebaseFirestore _db;
 
   @override
   FutureEither<UserCredential> signInWithGoogle() async {
@@ -45,6 +56,8 @@ class AuthAPI implements IAuthAPI {
           await FirebaseAuth.instance.signInWithPopup(googleProvider);
       // Or use signInWithRedirect
       // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+      await storeUserInfo(user);
+
       return right(user);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -127,10 +140,11 @@ class AuthAPI implements IAuthAPI {
   FutureEither<UserCredential> signInwithTwitter() async {
     try {
       TwitterAuthProvider twitterProvider = TwitterAuthProvider();
-
+      UserCredential credential =
+          await FirebaseAuth.instance.signInWithPopup(twitterProvider);
+      await storeUserInfo(credential);
       // Once signed in, return the UserCredential
-      return right(
-          await FirebaseAuth.instance.signInWithPopup(twitterProvider));
+      return right(credential);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -150,4 +164,85 @@ class AuthAPI implements IAuthAPI {
 
   @override
   Future<User> currentUserAccount() async => _auth.currentUser!;
+
+  @override
+  FutureEither<UserCredential> logInWithEmail(
+      String email, String password) async {
+    try {
+      final UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      await _db
+          .collection('users')
+          .doc(credential.user!.uid)
+          .get()
+          .then((value) => {
+                if (!value.exists) {storeUserInfo(credential)}
+              });
+
+      return right(credential);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "user-not-found":
+          return left(Failure('No user found for that email.'));
+
+        case 'wrong-password':
+          return left(Failure('Wrong password provided for that user.'));
+
+        default:
+          return left(Failure(e.toString()));
+      }
+    } on Exception catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  FutureEither<UserCredential> signUpWithEmail(
+      String email, String password) async {
+    try {
+      final UserCredential credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await storeUserInfo(credential);
+
+      return right(credential);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "user-not-found":
+          return left(Failure('No user found for that email.'));
+
+        case 'wrong-password':
+          return left(Failure('Wrong password provided for that user.'));
+
+        default:
+          return left(Failure(e.toString()));
+      }
+    } on Exception catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<void> signOut() {
+    return FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<bool> storeUserInfo(UserCredential credentials) async {
+    final AppUserInfo userInfo = AppUserInfo(
+        uid: credentials.user!.uid,
+        name: credentials.user!.displayName ?? '',
+        email: credentials.user!.email ?? '',
+        profilePhoto: credentials.user!.photoURL ?? '');
+    try {
+      final collectionReference = _db.collection("users");
+
+      await collectionReference.doc(userInfo.uid).set(userInfo.toJson());
+      return true;
+    } on FirebaseException {
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }

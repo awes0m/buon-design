@@ -50,10 +50,11 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen>
                 padding: const EdgeInsets.all(6),
                 child: TabBar(
                     controller: _tabController,
+                    isScrollable: true,
                     // give the indicator a decoration (color and border radius)
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(
-                        25.0,
+                        5.0,
                       ),
                       color: const Color(0xFFFF8527),
                     ),
@@ -64,6 +65,7 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen>
             ),
             Expanded(
               child: TabBarView(
+                  physics: const BouncingScrollPhysics(),
                   controller: _tabController,
                   children: tabPairs.map((tabPair) => tabPair.view).toList()),
             ),
