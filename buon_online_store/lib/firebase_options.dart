@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '198239262750',
     projectId: 'buon-online-store',
     storageBucket: 'buon-online-store.appspot.com',
+    iosClientId: '198239262750-29isoujukovtid9o8f2qv0u04berfs9c.apps.googleusercontent.com',
     iosBundleId: 'apisod.com.buonOnlineStore',
   );
 }

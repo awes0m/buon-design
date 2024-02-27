@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 
 import 'package:buon_online_store/apis/auth_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +52,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
         onPressed: () {
           getUserandNavigateToOrderForm();
 
-          if (user.isUndefinedOrNull) {
+          if (user!=null) {
             showSnackBar(context, 'Please login to customize your order');
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const LoginScreen()));

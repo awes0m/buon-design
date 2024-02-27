@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 
 import 'package:buon_online_store/common/logging_service.dart';
 import 'package:buon_online_store/core/utils.dart';
@@ -59,7 +58,7 @@ class _CustomizeProductFormState extends ConsumerState<CustomizeProductForm> {
         uid: "${widget.product.category}-${getRandomString(6)}",
         productName: widget.product.name,
         productCategory: widget.product.category,
-        username: (widget.user.isDefinedAndNotNull)
+        username: (widget.user != null)
             ? widget.user!.displayName!
             : usernameController.text,
         message: messageController.text,

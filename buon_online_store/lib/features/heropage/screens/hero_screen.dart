@@ -1,7 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'dart:js_interop';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +37,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           Row(
             children: [
               Text(
-                "Hi ${widget.user.isDefinedAndNotNull ? widget.user!.displayName : 'There 🫰'}!",
+                "Hi ${(widget.user != null) ? widget.user!.displayName : 'There 🫰'}!",
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),

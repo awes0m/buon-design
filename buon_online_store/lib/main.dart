@@ -1,3 +1,4 @@
+import 'package:buon_online_store/features/auth/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'common/common.dart';
-import 'features/persitent_bottom_bar/homepage.dart';
+import 'features/persitent_bottom_bar/nav_rail.dart';
 import 'firebase_options.dart';
 import 'theme/theme.dart';
 
@@ -64,10 +65,12 @@ class MyApp extends ConsumerWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               final user = snapshot.data;
               if (user == null) {
-                return HomePage();
+                return const LoginScreen();
               } else {
                 // User is logged in, show the home page
-                return HomePage(key, user);
+                return NavigationRailPage(
+                  user: user,
+                );
               }
             }
             return const Loader();

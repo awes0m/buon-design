@@ -38,7 +38,7 @@ class AuthController extends StateNotifier<bool> {
         await _authAPI.signInWithFacebook();
     state = false;
     res.fold((Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => navigateToHomepage(context, r));
+        (UserCredential r) => navigateToHomepage(context, r.user!));
   }
 
   Future<void> signinWithTwitter(BuildContext context) async {
@@ -47,7 +47,7 @@ class AuthController extends StateNotifier<bool> {
         await _authAPI.signInwithTwitter();
     state = false;
     res.fold((Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => navigateToHomepage(context, r));
+        (UserCredential r) => navigateToHomepage(context, r.user!));
   }
 
   Future<void> signinWithApple(BuildContext context) async {
@@ -56,6 +56,6 @@ class AuthController extends StateNotifier<bool> {
         await _authAPI.signInwithApple();
     state = false;
     res.fold((Failure l) => showSnackBar(context, l.message),
-        (UserCredential r) => navigateToHomepage(context, r));
+        (UserCredential r) => navigateToHomepage(context, r.user!));
   }
 }

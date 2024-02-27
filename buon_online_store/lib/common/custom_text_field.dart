@@ -1,4 +1,3 @@
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,7 +40,7 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         controller: controller,
         decoration: InputDecoration(
-            suffixIcon: onPressed.isNull
+            suffixIcon: (onPressed == null)
                 ? null
                 : TextButton(
                     onPressed: onPressed,
