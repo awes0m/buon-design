@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -9,19 +9,21 @@ import '../router.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
-    Key? key,
+    super.key,
     required this.context,
     required this.product,
-  }) : super(key: key);
+    required this.user,
+  });
 
   final BuildContext context;
   final Product product;
+  final AppUserInfo user;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => navigateToSingleProductScreen(context, product),
+      onTap: () => navigateToSingleProductScreen(context, product, user),
       child: Card(
           child: Padding(
         padding: const EdgeInsets.all(8.0),

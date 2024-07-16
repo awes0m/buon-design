@@ -1,14 +1,15 @@
-import 'package:buon_online_store/cart/cart_screen.dart';
+import 'package:buon_online_store/features/cart/cart_screen.dart';
 import 'package:buon_online_store/features/admin/admin_screen.dart';
 import 'package:buon_online_store/features/heropage/screens/hero_screen.dart';
 import 'package:buon_online_store/features/profile/screens/profile_screen.dart';
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:flutter/material.dart';
 
-List<Widget> adminscreens(user) => [
-      const WelcomeScreen(),
+List<Widget> adminscreens(AppUserInfo user) => [
+      WelcomeScreen(user: user),
       ProfileScreen(user: user),
-      const CartScreen(),
-      const AdminScreen(),
+      CartScreen(user),
+      AdminScreen(user: user),
     ];
 
 const adminNavBarItems = [
@@ -34,10 +35,10 @@ const adminNavBarItems = [
   ),
 ];
 
-List<Widget> userscreens(user) => [
-      const WelcomeScreen(),
+List<Widget> userscreens(AppUserInfo user) => [
+      WelcomeScreen(user: user),
       ProfileScreen(user: user),
-      const CartScreen(),
+      CartScreen(user),
     ];
 
 const userNavBarItems = [

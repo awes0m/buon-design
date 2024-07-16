@@ -194,7 +194,7 @@ class _AddProductFormState extends ConsumerState<AddProductForm> {
                     },
                   ),
                   CheckboxListTile(
-                    title: const Text('Is Custom Product'),
+                    title: const Text('Is is Best Seller'),
                     value: _isBestSeller,
                     onChanged: (bool? value) {
                       setState(() {

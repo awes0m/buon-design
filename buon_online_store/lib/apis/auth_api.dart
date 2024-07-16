@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:buon_online_store/core/general_providers.dart';
 import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/core.dart';
 
@@ -21,17 +24,22 @@ final FutureProvider<User?> currentUserAccountProvider =
   final AuthAPI authController = ref.watch(authAPIProvider);
   return authController.currentUserAccount();
 });
+final FutureProviderFamily<AppUserInfo?, String> appUserInfoProvider =
+    FutureProvider.family<AppUserInfo?, String>((ref, uid) async {
+  final AuthAPI authController = ref.watch(authAPIProvider);
+  return authController.getUserInfo(uid);
+});
 
 //class defination
 abstract class IAuthAPI {
   FutureEither<UserCredential> signUpWithEmail(String email, String password);
-  FutureEither<UserCredential> logInWithEmail(String email, String password);
-  FutureEither<UserCredential> signInwithApple();
-  FutureEither<UserCredential> signInwithTwitter();
-  FutureEither<UserCredential> signInWithGoogle();
-  FutureEither<UserCredential> signInWithFacebook();
+  FutureEither<AppUserInfo?> logInWithEmail(String email, String password);
+  FutureEither<AppUserInfo?> signInwithApple();
+  FutureEither<AppUserInfo?> signInwithTwitter();
+  FutureEither<AppUserInfo?> signInWithGoogle();
+  FutureEither<AppUserInfo?> signInWithFacebook();
   Future<bool> storeUserInfo(UserCredential credentials);
-
+  Future<AppUserInfo?> getUserInfo(String uid);
   Future<User?> currentUserAccount();
   Future<void> signOut();
 }
@@ -43,9 +51,62 @@ class AuthAPI implements IAuthAPI {
         _db = db;
   final FirebaseAuth _auth;
   final FirebaseFirestore _db;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
-  FutureEither<UserCredential> signInWithGoogle() async {
+  Future<bool> storeUserInfo(UserCredential credentials) async {
+    final AppUserInfo userInfo = AppUserInfo(
+        uid: credentials.user!.uid,
+        name: credentials.user!.displayName ?? '',
+        email: credentials.user!.email ?? '',
+        profilePhoto: credentials.user!.photoURL ?? '');
+    try {
+      final SharedPreferences prefs = await _prefs;
+      //store in db
+      await _db
+          .collection("users")
+          .doc(userInfo.uid.toString())
+          .set(userInfo.toJson());
+      //store to shared prefs
+      prefs.setString('userInfo', userInfo.toJson().toString());
+
+      return true;
+    } on Exception {
+      return false;
+    }
+  }
+
+  @override
+  Future<AppUserInfo?> getUserInfo(String uid) async {
+    try {
+      AppUserInfo? userInfo;
+      final prefs = await _prefs;
+      if (prefs.get('userInfo') != null) {
+        userInfo =
+            AppUserInfo.fromJson(jsonDecode(prefs.getString('userInfo')!));
+      } else {
+        _db
+            .collection('users')
+            .where('uid', isEqualTo: uid)
+            .snapshots()
+            .listen((data) {
+          print(data.docs[0].data().toString());
+          userInfo = AppUserInfo.fromJson(data.docs[0].data());
+          print('data found');
+          print(userInfo!.toJson().toString());
+          prefs.setString('userInfo', userInfo!.toJson().toString());
+        });
+      }
+
+      return userInfo;
+    } on Exception catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  @override
+  FutureEither<AppUserInfo?> signInWithGoogle() async {
     try {
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
       googleProvider
@@ -54,11 +115,13 @@ class AuthAPI implements IAuthAPI {
       // Once signed in, return the UserCredential
       UserCredential user =
           await FirebaseAuth.instance.signInWithPopup(googleProvider);
-      // Or use signInWithRedirect
-      // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-      await storeUserInfo(user);
 
-      return right(user);
+      var res = await getUserInfo(user.user!.uid);
+
+      if (res == null) {
+        await storeUserInfo(user);
+      }
+      return right(await getUserInfo(user.user!.uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -77,7 +140,7 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  FutureEither<UserCredential> signInWithFacebook() async {
+  FutureEither<AppUserInfo?> signInWithFacebook() async {
     try {
       FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
@@ -90,9 +153,12 @@ class AuthAPI implements IAuthAPI {
       UserCredential user =
           await FirebaseAuth.instance.signInWithPopup(facebookProvider);
 
-      // Or use signInWithRedirect
+      var res = await getUserInfo(user.user!.uid);
 
-      return right(user);
+      if (res == null) {
+        await storeUserInfo(user);
+      }
+      return right(await getUserInfo(user.user!.uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -111,14 +177,20 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  FutureEither<UserCredential> signInwithApple() async {
+  FutureEither<AppUserInfo?> signInwithApple() async {
     try {
       final provider = OAuthProvider("apple.com")
         ..addScope('email')
         ..addScope('name');
 
       // Sign in the user with Firebase.
-      return right(await FirebaseAuth.instance.signInWithPopup(provider));
+      var user = await FirebaseAuth.instance.signInWithPopup(provider);
+      var res = await getUserInfo(user.user!.uid);
+
+      if (res == null) {
+        await storeUserInfo(user);
+      }
+      return right(await getUserInfo(user.user!.uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -137,14 +209,17 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  FutureEither<UserCredential> signInwithTwitter() async {
+  FutureEither<AppUserInfo?> signInwithTwitter() async {
     try {
       TwitterAuthProvider twitterProvider = TwitterAuthProvider();
-      UserCredential credential =
+      UserCredential user =
           await FirebaseAuth.instance.signInWithPopup(twitterProvider);
-      await storeUserInfo(credential);
-      // Once signed in, return the UserCredential
-      return right(credential);
+      var res = await getUserInfo(user.user!.uid);
+
+      if (res == null) {
+        await storeUserInfo(user);
+      }
+      return right(await getUserInfo(user.user!.uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
@@ -166,20 +241,17 @@ class AuthAPI implements IAuthAPI {
   Future<User> currentUserAccount() async => _auth.currentUser!;
 
   @override
-  FutureEither<UserCredential> logInWithEmail(
+  FutureEither<AppUserInfo?> logInWithEmail(
       String email, String password) async {
     try {
-      final UserCredential credential = await FirebaseAuth.instance
+      final UserCredential user = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      await _db
-          .collection('users')
-          .doc(credential.user!.uid)
-          .get()
-          .then((value) => {
-                if (!value.exists) {storeUserInfo(credential)}
-              });
+      var res = await getUserInfo(user.user!.uid);
 
-      return right(credential);
+      if (res == null) {
+        await storeUserInfo(user);
+      }
+      return right(await getUserInfo(user.user!.uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "user-not-found":
@@ -225,24 +297,5 @@ class AuthAPI implements IAuthAPI {
   @override
   Future<void> signOut() {
     return FirebaseAuth.instance.signOut();
-  }
-
-  @override
-  Future<bool> storeUserInfo(UserCredential credentials) async {
-    final AppUserInfo userInfo = AppUserInfo(
-        uid: credentials.user!.uid,
-        name: credentials.user!.displayName ?? '',
-        email: credentials.user!.email ?? '',
-        profilePhoto: credentials.user!.photoURL ?? '');
-    try {
-      final collectionReference = _db.collection("users");
-
-      await collectionReference.doc(userInfo.uid).set(userInfo.toJson());
-      return true;
-    } on FirebaseException {
-      return false;
-    } catch (e) {
-      return false;
-    }
   }
 }

@@ -5,10 +5,10 @@ class SocialButtons extends StatelessWidget {
   final IconData iconData;
   final VoidCallback onpressed;
   const SocialButtons({
-    Key? key,
+    super.key,
     this.iconData = FontAwesomeIcons.a,
     required this.onpressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

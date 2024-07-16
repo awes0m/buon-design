@@ -6,8 +6,8 @@ part of 'app_user_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserInfoImpl _$$UserInfoImplFromJson(Map<String, dynamic> json) =>
-    _$UserInfoImpl(
+_$AppUserInfoImpl _$$AppUserInfoImplFromJson(Map<String, dynamic> json) =>
+    _$AppUserInfoImpl(
       uid: json['uid'] as String,
       name: json['name'] as String,
       email: json['email'] as String,
@@ -21,13 +21,14 @@ _$UserInfoImpl _$$UserInfoImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      cartItemIds: (json['cartItemIds'] as List<dynamic>?)
+      cartItemIds: json['cartItemIds'] as String? ?? '',
+      favouriteIds: (json['favouriteIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$UserInfoImplToJson(_$UserInfoImpl instance) =>
+Map<String, dynamic> _$$AppUserInfoImplToJson(_$AppUserInfoImpl instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'name': instance.name,
@@ -37,4 +38,5 @@ Map<String, dynamic> _$$UserInfoImplToJson(_$UserInfoImpl instance) =>
       'address': instance.address,
       'orderIds': instance.orderIds,
       'cartItemIds': instance.cartItemIds,
+      'favouriteIds': instance.favouriteIds,
     };

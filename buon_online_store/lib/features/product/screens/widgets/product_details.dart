@@ -5,8 +5,8 @@ import '../../../../core/utils.dart';
 import '../../../../models/product.dart';
 import '../theme/product_page_theme.dart';
 
-class ProductDetails extends StatefulWidget {
-  const ProductDetails({
+class ProductDetailsMobile extends StatefulWidget {
+  const ProductDetailsMobile({
     super.key,
     required this.product,
   });
@@ -14,10 +14,10 @@ class ProductDetails extends StatefulWidget {
   final Product product;
 
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  State<ProductDetailsMobile> createState() => _ProductDetailsMobileState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsMobileState extends State<ProductDetailsMobile> {
   final DraggableScrollableController controller =
       DraggableScrollableController();
   @override

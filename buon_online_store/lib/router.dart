@@ -1,32 +1,33 @@
 import 'package:buon_online_store/features/admin/screens/products_management.dart';
-import 'package:buon_online_store/features/persitent_bottom_bar/nav_rail.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:buon_online_store/features/auth/screens/login_screen.dart';
+import 'package:buon_online_store/features/nav_rail/nav_rail.dart';
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:flutter/material.dart';
 
 import 'features/admin/screens/add_product_form.dart';
-import 'features/heropage/screens/catalogue_screen.dart';
 import 'features/product/screens/product_page.dart';
 import 'models/product.dart';
 
 // list of routing functions
-
-/// HomePage
-Future<Object?> navigateToHomepage(BuildContext context, User r) {
-  return Navigator.of(context)
-      .pushNamed(NavigationRailPage.routeName, arguments: r);
+//AuthPage
+Future<Object?> navigateToAuth(BuildContext context) {
+  return Navigator.of(context).pushNamed(
+    LoginScreen.routeName,
+  );
 }
 
-/// Catalogue
-Future<dynamic> navigateToCatalogueScreen(BuildContext context) {
+/// HomePage
+Future<Object?> navigateToHomepage(BuildContext context, AppUserInfo? r) {
   return Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => const CatalogueScreen()));
+      .pushReplacementNamed(NavigationRailPage.routeName, arguments: r);
 }
 
 /// Single Product Page
-void navigateToSingleProductScreen(BuildContext context, Product product) {
+void navigateToSingleProductScreen(
+    BuildContext context, Product product, AppUserInfo user) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => ProductScreen(product)),
+    MaterialPageRoute(builder: (context) => ProductScreen(product, user)),
   );
 }
 
@@ -37,7 +38,8 @@ void navigateToAddProductForm(BuildContext context) {
       .push(MaterialPageRoute(builder: (ctx) => const AddProductForm()));
 }
 
-void navigateToProductsManagementScreen(BuildContext context) {
+void navigateToProductsManagementScreen(
+    BuildContext context, AppUserInfo user) {
   Navigator.of(context).push(
-      MaterialPageRoute(builder: (ctx) => const ProductsManagementScreen()));
+      MaterialPageRoute(builder: (ctx) => ProductsManagementScreen(user)));
 }

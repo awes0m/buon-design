@@ -1,43 +1,26 @@
 {
   "project_info": {
-    "project_number": "198239262750",
-    "project_id": "buon-online-store",
-    "storage_bucket": "buon-online-store.appspot.com"
+    "project_number": "915357553769",
+    "project_id": "buon-prod",
+    "storage_bucket": "buon-prod.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:198239262750:android:ecacb31dbfc637ee22760f",
+        "mobilesdk_app_id": "1:915357553769:android:2604d855caf93df19b3ef8",
         "android_client_info": {
-          "package_name": "apisod.com.buon_online_store"
+          "package_name": "awes0m.github.io.buon_online_store"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "198239262750-761puuju48dpolfb1fe2af8le8s8k8q9.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBqDnRH3lsgxfT2UL4tZiui8zb1HpPYgQ4"
+          "current_key": "AIzaSyBlDxYrjg4Xw6PkrjYpiCRaPz5KGtAKU8w"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "198239262750-761puuju48dpolfb1fe2af8le8s8k8q9.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "198239262750-29isoujukovtid9o8f2qv0u04berfs9c.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "apisod.com.buonOnlineStore"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

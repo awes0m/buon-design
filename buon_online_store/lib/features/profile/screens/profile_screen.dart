@@ -1,81 +1,93 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:buon_online_store/apis/auth_api.dart';
+import 'package:buon_online_store/common/common.dart';
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ProfileScreen extends StatelessWidget {
-  final User user;
+class ProfileScreen extends ConsumerStatefulWidget {
+  final AppUserInfo user;
   const ProfileScreen({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-              flex: 2,
-              child: _TopPortion(
-                user: user,
-              )),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                    user.displayName!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+    return ref.watch(appUserInfoProvider(widget.user.uid)).when(
+        data: (appUser) {
+          return Scaffold(
+            body: Column(
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: _TopPortion(
+                      user: appUser!,
+                    )),
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          appUser.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FloatingActionButton.extended(
+                              onPressed: () {},
+                              heroTag: 'Orders',
+                              elevation: 0,
+                              label: const Text("Orders"),
+                              icon: const Icon(FontAwesomeIcons.boxOpen),
+                            ),
+                            const SizedBox(width: 16.0),
+                            FloatingActionButton.extended(
+                              onPressed: () {},
+                              heroTag: 'cart',
+                              elevation: 0,
+                              label: const Text("Cart"),
+                              icon: const Icon(FontAwesomeIcons.cartShopping),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        _ProfileInfoRow(
+                          user: appUser,
+                        )
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FloatingActionButton.extended(
-                        onPressed: () {},
-                        heroTag: 'Orders',
-                        elevation: 0,
-                        label: const Text("Orders"),
-                        icon: const Icon(FontAwesomeIcons.boxOpen),
-                      ),
-                      const SizedBox(width: 16.0),
-                      FloatingActionButton.extended(
-                        onPressed: () {},
-                        heroTag: 'cart',
-                        elevation: 0,
-                        label: const Text("Cart"),
-                        icon: const Icon(FontAwesomeIcons.cartShopping),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  _ProfileInfoRow(
-                    user: user,
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
+        },
+        error: (e, _) => ErrorText(error: e.toString()),
+        loading: () => const Loader());
   }
 }
 
 class _ProfileInfoRow extends StatelessWidget {
-  final User user;
+  final AppUserInfo user;
 
   const _ProfileInfoRow({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final List<ProfileInfoItem> _items = const [
     ProfileInfoItem("Posts", 900),
@@ -131,12 +143,11 @@ class ProfileInfoItem {
 }
 
 class _TopPortion extends StatelessWidget {
-  final User user;
+  final AppUserInfo user;
 
   const _TopPortion({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +180,8 @@ class _TopPortion extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: user.photoURL != null
-                            ? NetworkImage(user.photoURL as String)
+                        image: user.profilePhoto.length > 10
+                            ? NetworkImage(user.profilePhoto)
                             : const NetworkImage(
                                 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')),
                   ),

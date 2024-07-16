@@ -1,19 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:buon_online_store/core/core.dart';
-import 'package:buon_online_store/features/heropage/screens/all_products_grid.dart';
-
 import '../../../constants/constants.dart';
-import '../../../router.dart';
+import '../../../core/core.dart';
+import 'all_products_grid.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
-  final User? user;
+  final AppUserInfo? user;
 
-  const WelcomeScreen({this.user, super.key});
+  const WelcomeScreen({required this.user, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _WelcomeScreenState();
@@ -28,7 +26,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: myTheme.colorScheme.background,
+      backgroundColor: myTheme.colorScheme.surface,
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -37,7 +35,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           Row(
             children: [
               Text(
-                "Hi ${(widget.user != null) ? widget.user!.displayName : 'There 🫰'}!",
+                "Hi ${widget.user!.name}!",
                 style:
                     const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -116,9 +114,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                                     ),
                                     // Catalog button
                                     ElevatedButton(
-                                      onPressed: () {
-                                        navigateToCatalogueScreen(context);
-                                      },
+                                      onPressed: () {},
                                       child: const Text("Catalog",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
@@ -154,7 +150,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             ],
           ),
 
-          const AllProductsGrid(),
+          AllProductsGrid(widget.user!),
         ],
       ),
     );

@@ -8,7 +8,7 @@
 PRODUCT_NAME = buon_online_store
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = apisod.com.buonOnlineStore
+PRODUCT_BUNDLE_IDENTIFIER = awes0m.github.io.buonOnlineStore
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 apisod.com. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 awes0m.github.io. All rights reserved.

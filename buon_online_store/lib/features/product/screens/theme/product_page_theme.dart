@@ -28,15 +28,15 @@ class ProductPageTheme {
                 borderRadius: BorderRadius.all(Radius.circular(16.0)))),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            elevation: MaterialStateProperty.all(0.0),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            elevation: WidgetStateProperty.all(0.0),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
-            backgroundColor: MaterialStateProperty.all<Color>(
+            backgroundColor: WidgetStateProperty.all<Color>(
                 catalogueButtonColor), // Button color
-            foregroundColor: MaterialStateProperty.all<Color>(
+            foregroundColor: WidgetStateProperty.all<Color>(
                 Colors.white), // Text and icon color
           ),
         ),

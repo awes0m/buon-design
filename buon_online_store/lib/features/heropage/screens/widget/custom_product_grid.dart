@@ -1,3 +1,4 @@
+import 'package:buon_online_store/models/app_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -7,10 +8,12 @@ import '../../../../models/product.dart';
 
 class CustomProductGrid extends StatelessWidget {
   final List<Product> productList;
+  final AppUserInfo user;
 
   const CustomProductGrid({
     super.key,
     required this.productList,
+    required this.user,
   });
 
   @override
@@ -25,6 +28,7 @@ class CustomProductGrid extends StatelessWidget {
       // physics: const NeverScrollableScrollPhysics(),
       children: productList
           .map((e) => ProductCard(
+                user: user,
                 context: context,
                 product: e,
               ))

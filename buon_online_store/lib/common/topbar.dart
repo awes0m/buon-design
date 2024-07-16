@@ -8,12 +8,12 @@ class TopBarFb4 extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   const TopBarFb4({
-    Key? key,
+    super.key,
     required this.title,
     required this.upperTitle,
     this.icon = Icons.menu,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

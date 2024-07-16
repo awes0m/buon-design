@@ -13,6 +13,7 @@ import '../../../common/common.dart';
 enum AuthType { login, signup }
 
 class LoginScreen extends ConsumerStatefulWidget {
+  static const String routeName = '/login';
   const LoginScreen({super.key});
 
   @override
@@ -73,7 +74,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               const BorderRadius.all(Radius.circular(3)),
                         ),
                         child: Lottie.asset('assets/animations/welcome.json',
-                            frameRate: FrameRate(2),
+                            frameRate: const FrameRate(2),
                             repeat: true,
                             reverse: true,
                             onLoaded: (composition) {}),

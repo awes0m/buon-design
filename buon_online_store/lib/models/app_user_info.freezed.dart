@@ -12,10 +12,10 @@ part of 'app_user_info.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 AppUserInfo _$AppUserInfoFromJson(Map<String, dynamic> json) {
-  return _UserInfo.fromJson(json);
+  return _AppUserInfo.fromJson(json);
 }
 
 /// @nodoc
@@ -27,7 +27,8 @@ mixin _$AppUserInfo {
   String get phoneNumber => throw _privateConstructorUsedError;
   List<String> get address => throw _privateConstructorUsedError;
   List<String> get orderIds => throw _privateConstructorUsedError;
-  List<String> get cartItemIds => throw _privateConstructorUsedError;
+  String get cartItemIds => throw _privateConstructorUsedError;
+  List<String> get favouriteIds => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +50,8 @@ abstract class $AppUserInfoCopyWith<$Res> {
       String phoneNumber,
       List<String> address,
       List<String> orderIds,
-      List<String> cartItemIds});
+      String cartItemIds,
+      List<String> favouriteIds});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$AppUserInfoCopyWithImpl<$Res, $Val extends AppUserInfo>
     Object? address = null,
     Object? orderIds = null,
     Object? cartItemIds = null,
+    Object? favouriteIds = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -106,17 +109,21 @@ class _$AppUserInfoCopyWithImpl<$Res, $Val extends AppUserInfo>
       cartItemIds: null == cartItemIds
           ? _value.cartItemIds
           : cartItemIds // ignore: cast_nullable_to_non_nullable
+              as String,
+      favouriteIds: null == favouriteIds
+          ? _value.favouriteIds
+          : favouriteIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$UserInfoImplCopyWith<$Res>
+abstract class _$$AppUserInfoImplCopyWith<$Res>
     implements $AppUserInfoCopyWith<$Res> {
-  factory _$$UserInfoImplCopyWith(
-          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
-      __$$UserInfoImplCopyWithImpl<$Res>;
+  factory _$$AppUserInfoImplCopyWith(
+          _$AppUserInfoImpl value, $Res Function(_$AppUserInfoImpl) then) =
+      __$$AppUserInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,15 +134,16 @@ abstract class _$$UserInfoImplCopyWith<$Res>
       String phoneNumber,
       List<String> address,
       List<String> orderIds,
-      List<String> cartItemIds});
+      String cartItemIds,
+      List<String> favouriteIds});
 }
 
 /// @nodoc
-class __$$UserInfoImplCopyWithImpl<$Res>
-    extends _$AppUserInfoCopyWithImpl<$Res, _$UserInfoImpl>
-    implements _$$UserInfoImplCopyWith<$Res> {
-  __$$UserInfoImplCopyWithImpl(
-      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
+class __$$AppUserInfoImplCopyWithImpl<$Res>
+    extends _$AppUserInfoCopyWithImpl<$Res, _$AppUserInfoImpl>
+    implements _$$AppUserInfoImplCopyWith<$Res> {
+  __$$AppUserInfoImplCopyWithImpl(
+      _$AppUserInfoImpl _value, $Res Function(_$AppUserInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,8 +157,9 @@ class __$$UserInfoImplCopyWithImpl<$Res>
     Object? address = null,
     Object? orderIds = null,
     Object? cartItemIds = null,
+    Object? favouriteIds = null,
   }) {
-    return _then(_$UserInfoImpl(
+    return _then(_$AppUserInfoImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -180,8 +189,12 @@ class __$$UserInfoImplCopyWithImpl<$Res>
           : orderIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       cartItemIds: null == cartItemIds
-          ? _value._cartItemIds
+          ? _value.cartItemIds
           : cartItemIds // ignore: cast_nullable_to_non_nullable
+              as String,
+      favouriteIds: null == favouriteIds
+          ? _value._favouriteIds
+          : favouriteIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
   }
@@ -189,8 +202,8 @@ class __$$UserInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserInfoImpl with DiagnosticableTreeMixin implements _UserInfo {
-  const _$UserInfoImpl(
+class _$AppUserInfoImpl implements _AppUserInfo {
+  const _$AppUserInfoImpl(
       {required this.uid,
       required this.name,
       required this.email,
@@ -198,13 +211,14 @@ class _$UserInfoImpl with DiagnosticableTreeMixin implements _UserInfo {
       this.phoneNumber = '',
       final List<String> address = const [],
       final List<String> orderIds = const [],
-      final List<String> cartItemIds = const []})
+      this.cartItemIds = '',
+      final List<String> favouriteIds = const []})
       : _address = address,
         _orderIds = orderIds,
-        _cartItemIds = cartItemIds;
+        _favouriteIds = favouriteIds;
 
-  factory _$UserInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserInfoImplFromJson(json);
+  factory _$AppUserInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppUserInfoImplFromJson(json);
 
   @override
   final String uid;
@@ -236,40 +250,28 @@ class _$UserInfoImpl with DiagnosticableTreeMixin implements _UserInfo {
     return EqualUnmodifiableListView(_orderIds);
   }
 
-  final List<String> _cartItemIds;
   @override
   @JsonKey()
-  List<String> get cartItemIds {
-    if (_cartItemIds is EqualUnmodifiableListView) return _cartItemIds;
+  final String cartItemIds;
+  final List<String> _favouriteIds;
+  @override
+  @JsonKey()
+  List<String> get favouriteIds {
+    if (_favouriteIds is EqualUnmodifiableListView) return _favouriteIds;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cartItemIds);
+    return EqualUnmodifiableListView(_favouriteIds);
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppUserInfo(uid: $uid, name: $name, email: $email, profilePhoto: $profilePhoto, phoneNumber: $phoneNumber, address: $address, orderIds: $orderIds, cartItemIds: $cartItemIds)';
+  String toString() {
+    return 'AppUserInfo(uid: $uid, name: $name, email: $email, profilePhoto: $profilePhoto, phoneNumber: $phoneNumber, address: $address, orderIds: $orderIds, cartItemIds: $cartItemIds, favouriteIds: $favouriteIds)';
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AppUserInfo'))
-      ..add(DiagnosticsProperty('uid', uid))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('profilePhoto', profilePhoto))
-      ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
-      ..add(DiagnosticsProperty('address', address))
-      ..add(DiagnosticsProperty('orderIds', orderIds))
-      ..add(DiagnosticsProperty('cartItemIds', cartItemIds));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserInfoImpl &&
+            other is _$AppUserInfoImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
@@ -279,8 +281,10 @@ class _$UserInfoImpl with DiagnosticableTreeMixin implements _UserInfo {
                 other.phoneNumber == phoneNumber) &&
             const DeepCollectionEquality().equals(other._address, _address) &&
             const DeepCollectionEquality().equals(other._orderIds, _orderIds) &&
+            (identical(other.cartItemIds, cartItemIds) ||
+                other.cartItemIds == cartItemIds) &&
             const DeepCollectionEquality()
-                .equals(other._cartItemIds, _cartItemIds));
+                .equals(other._favouriteIds, _favouriteIds));
   }
 
   @JsonKey(ignore: true)
@@ -294,24 +298,25 @@ class _$UserInfoImpl with DiagnosticableTreeMixin implements _UserInfo {
       phoneNumber,
       const DeepCollectionEquality().hash(_address),
       const DeepCollectionEquality().hash(_orderIds),
-      const DeepCollectionEquality().hash(_cartItemIds));
+      cartItemIds,
+      const DeepCollectionEquality().hash(_favouriteIds));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
-      __$$UserInfoImplCopyWithImpl<_$UserInfoImpl>(this, _$identity);
+  _$$AppUserInfoImplCopyWith<_$AppUserInfoImpl> get copyWith =>
+      __$$AppUserInfoImplCopyWithImpl<_$AppUserInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserInfoImplToJson(
+    return _$$AppUserInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _UserInfo implements AppUserInfo {
-  const factory _UserInfo(
+abstract class _AppUserInfo implements AppUserInfo {
+  const factory _AppUserInfo(
       {required final String uid,
       required final String name,
       required final String email,
@@ -319,10 +324,11 @@ abstract class _UserInfo implements AppUserInfo {
       final String phoneNumber,
       final List<String> address,
       final List<String> orderIds,
-      final List<String> cartItemIds}) = _$UserInfoImpl;
+      final String cartItemIds,
+      final List<String> favouriteIds}) = _$AppUserInfoImpl;
 
-  factory _UserInfo.fromJson(Map<String, dynamic> json) =
-      _$UserInfoImpl.fromJson;
+  factory _AppUserInfo.fromJson(Map<String, dynamic> json) =
+      _$AppUserInfoImpl.fromJson;
 
   @override
   String get uid;
@@ -339,9 +345,11 @@ abstract class _UserInfo implements AppUserInfo {
   @override
   List<String> get orderIds;
   @override
-  List<String> get cartItemIds;
+  String get cartItemIds;
+  @override
+  List<String> get favouriteIds;
   @override
   @JsonKey(ignore: true)
-  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
+  _$$AppUserInfoImplCopyWith<_$AppUserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

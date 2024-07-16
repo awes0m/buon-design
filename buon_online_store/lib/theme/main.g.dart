@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   // This widget is the root of your application.
   @override
@@ -29,13 +29,13 @@ class Home extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 2,
-          title: Text("Material Theme Builder"),
+          title: const Text("Material Theme Builder"),
         ),
-        body: Center(
+        body: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Update with your UI',
               ),
             ],

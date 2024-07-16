@@ -68,24 +68,25 @@ class AdminScreenController extends StateNotifier<bool> {
     try {
       state = true;
       final NavigatorState navigator = Navigator.of(context);
-      List<String> imageUrls = await _storageAPI.uploadImages(imagePaths);
-      Product newProduct = Product(
-        name: name,
-        category: category,
-        description: description,
-        imageUrls: imageUrls,
-        availableColors: availableColors,
-        price: price,
-        isCustom: isCustom,
-        isBestSeller: isBestSeller,
-      );
-      LoggingService.logText(
-          'Uploading Product ${newProduct.toJson().toString()}');
-      var res = await _productAPI.createNewProduct(newProduct);
-      state = false;
-      res.fold((l) => localSnackbar(l), (r) {
-        localSnackbar('Product created');
-        navigator.pop();
+      await _storageAPI.uploadImages(imagePaths).then((imageUrls) async {
+        Product newProduct = Product(
+          name: name,
+          category: category,
+          description: description,
+          imageUrls: imageUrls,
+          availableColors: availableColors,
+          price: price,
+          isCustom: isCustom,
+          isBestSeller: isBestSeller,
+        );
+        LoggingService.logText(
+            'Uploading Product ${newProduct.toJson().toString()}');
+        var res = await _productAPI.createNewProduct(newProduct);
+        state = false;
+        res.fold((l) => localSnackbar(l), (r) {
+          localSnackbar('Product created');
+          navigator.pop();
+        });
       });
     } on Failure catch (e) {
       localSnackbar(e.message);

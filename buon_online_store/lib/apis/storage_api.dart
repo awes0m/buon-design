@@ -35,8 +35,10 @@ class StorageAPI implements IStorageAPI {
             .child('productImages/$fileName')
             .putData(imageFile.bytes,
                 SettableMetadata(contentType: imageFile.metadata));
-        imageUrls.add(
-            await res.storage.ref('productImages/$fileName').getDownloadURL());
+        await res.storage
+            .ref('productImages/$fileName')
+            .getDownloadURL()
+            .then((value) => imageUrls.add(value));
       }
       LoggingService.logText(imageUrls.toString());
     } on FirebaseException catch (e) {
